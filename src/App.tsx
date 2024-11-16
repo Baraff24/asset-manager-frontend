@@ -1,15 +1,10 @@
+import React from 'react';
+import AppRoutes from './routes/AppRoutes';
 
-import './App.css'
-import Navbar from './components/Navbar'
-
-function App() {
-  
-
+const App: React.FC = () => {
   return (
-    <>
-      <Navbar />
-    </>
-  )
-}
+      <AppRoutes />
+  );
+};
 
-export default App
+export default App;
