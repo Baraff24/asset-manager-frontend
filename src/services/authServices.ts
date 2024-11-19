@@ -12,37 +12,24 @@ const loginResponseSchema = z.object({
   }),
 });
 
-const refreshResponseSchema = z.object({
-  access: z.string(),
-});
-
 type LoginResponse = z.infer<typeof loginResponseSchema>;
-type RefreshResponse = z.infer<typeof refreshResponseSchema>;
 
-// Keys for storing tokens in local storage
+// Key for storing tokens in local storage
 const ACCESS_TOKEN_KEY = "access_token";
-const REFRESH_TOKEN_KEY = "refresh_token";
 
-// Function to set tokens
-const setTokens = (access: string, refresh: string) => {
+// Function to set token
+const setToken = (access: string) => {
   localStorage.setItem(ACCESS_TOKEN_KEY, access);
-  localStorage.setItem(REFRESH_TOKEN_KEY, refresh);
 };
 
 // Function to clear tokens
-const clearTokens = () => {
+const clearToken = () => {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
 };
 
 // Function to get the access token
 export const getAccessToken = (): string | null => {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
-};
-
-// Funzione to get the refresh token
-const getRefreshToken = (): string | null => {
-  return localStorage.getItem(REFRESH_TOKEN_KEY);
 };
 
 // Function of login
@@ -62,41 +49,14 @@ export const login = async (username: string, password: string): Promise<LoginRe
 
   const data = await response.json();
   const parsedData = loginResponseSchema.parse(data);
-  setTokens(parsedData.access, parsedData.refresh);
+  setToken(parsedData.access);
   return parsedData;
 };
 
 // Function of logout
 export const logout = () => {
-  clearTokens();
+  clearToken();
   // Puoi aggiungere altre azioni di logout, come reindirizzare l'utente
-};
-
-// Funzione to refresh the access token
-export const refreshToken = async (): Promise<string> => {
-  const refresh = getRefreshToken();
-  if (!refresh) {
-    throw new Error("Refresh token mancante");
-  }
-
-  const response = await fetch("/api/auth/refresh/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ refresh }),
-  });
-
-  if (!response.ok) {
-    clearTokens();
-    const errorData = await response.json();
-    throw new Error(errorData.detail || "Token di refresh non valido");
-  }
-
-  const data = await response.json();
-  const parsedData = refreshResponseSchema.parse(data);
-  localStorage.setItem(ACCESS_TOKEN_KEY, parsedData.access);
-  return parsedData.access;
 };
 
 // Function to get the current user
@@ -115,7 +75,7 @@ export const getCurrentUser = async (): Promise<LoginResponse["user"]> => {
   });
 
   if (!response.ok) {
-    clearTokens();
+    clearToken();
     throw new Error("Non autenticato");
   }
 
