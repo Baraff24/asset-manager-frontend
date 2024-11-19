@@ -1,15 +1,27 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Header } from "../components";
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {Header, PrivateRoute} from "../components";
+// import PrivateRoute from "../components/PrivateRoute";
+
+// Lazy load delle pagine
+// const Home = lazy(() => import("../pages/Home"));
+// const Login = lazy(() => import("../pages/Login"));
 
 const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Header />
-      <Routes>
-        {/*<Route path="/" element={<Home />} />*/}
-      </Routes>
-        {/*<Footer />*/}
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          {/* Public route */}
+          {/*<Route path="/login" element={<Login />} />*/}
+
+          {/* Protected route */}
+          <Route element={<PrivateRoute />}>
+            {/*<Route path="/" element={<Home />} />*/}
+          </Route>
+        </Routes>
+      </Suspense>
     </Router>
   );
 };

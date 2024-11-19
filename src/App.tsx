@@ -1,9 +1,12 @@
 import React from 'react';
 import AppRoutes from './routes/AppRoutes';
+import {AuthProvider} from "./context/authContext.tsx";
 
 const App: React.FC = () => {
   return (
-      <AppRoutes />
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
   );
 };
 
