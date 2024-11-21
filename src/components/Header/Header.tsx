@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NavItem } from "../index";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../services";
-import { FaUser, FaSignOutAlt, FaSignInAlt } from 'react-icons/fa';
+import { FaUser, FaSignOutAlt, FaSignInAlt, FaHouseUser, FaRegCalendarAlt, FaWarehouse, FaBriefcaseMedical, FaClipboardList, FaRegBuilding, FaThumbtack} from 'react-icons/fa';
 import {useAuthContext} from "../../context/authContext.tsx";
 
 const Header: React.FC = () => {
@@ -132,7 +132,8 @@ const Header: React.FC = () => {
             <h3 className="mb-2 text-xs font-medium uppercase text-gray-500">
               Main
             </h3>
-            <ul className="mb-8 text-sm font-medium">
+            <ul className="mb-8 text-sm font-medium flex items-center hover:bg-gray-600 rounded pl-3">
+              <FaHouseUser size={22}/>
               <NavItem to="/" label="Homepage" />
             </ul>
           </div>
@@ -142,7 +143,8 @@ const Header: React.FC = () => {
             <h3 className="mb-2 text-xs font-medium uppercase text-gray-500">
               Anagrafiche
             </h3>
-            <ul className="mb-8 text-sm font-medium">
+            <ul className="mb-8 text-sm font-medium flex items-center hover:bg-gray-600 rounded pl-3">
+              <FaRegBuilding size={22}/> 
               <NavItem to="/dipartimenti" label="Dipartimenti" />
             </ul>
           </div>
@@ -153,8 +155,14 @@ const Header: React.FC = () => {
               Attività
             </h3>
             <ul className="mb-8 text-sm font-medium">
-              <NavItem to="/statoRisorse" label="Stato risorse" />
-              <NavItem to="/rapportiIntervento" label="Rapporti di intervento" />
+              <li className='flex items-center hover:bg-gray-600 rounded pl-3'>
+                <FaBriefcaseMedical size={22}/>
+                <NavItem to="/statoRisorse" label="Stato risorse" />
+              </li>
+              <li className='flex items-center hover:bg-gray-600 rounded pl-3'>
+                <FaClipboardList size={22}/>
+                <NavItem to="/rapportiIntervento" label="Rapporti di intervento" />
+              </li>
             </ul>
           </div>
 
@@ -164,8 +172,14 @@ const Header: React.FC = () => {
               Articoli
             </h3>
             <ul className="mb-8 text-sm font-medium">
-              <NavItem to="/assegnazioneRisorse" label="Assegnazione risorse" />
-              <NavItem to="/magazzino" label="Magazzino" />
+              <li className='flex items-center hover:bg-gray-600 rounded pl-3'>
+                <FaThumbtack size={22}/>
+                <NavItem to="/assegnazioneRisorse" label="Assegnazione risorse" />
+              </li>
+              <li className='flex items-center hover:bg-gray-600 rounded pl-3'>
+                <FaWarehouse size={22}/>
+                <NavItem to="/magazzino" label="Magazzino" />
+              </li>
             </ul>
           </div>
 
@@ -174,7 +188,8 @@ const Header: React.FC = () => {
             <h3 className="mb-2 text-xs font-medium uppercase text-gray-500">
               Agenda
             </h3>
-            <ul className="mb-8 text-sm font-medium">
+            <ul className="mb-8 text-sm font-medium flex items-center hover:bg-gray-600 rounded pl-3">
+              <FaRegCalendarAlt size={22}/>
               <NavItem to="/agenda" label="Agenda" />
             </ul>
           </div>

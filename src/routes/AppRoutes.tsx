@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {Header, PrivateRoute} from "../components";
+import Footer from "../components/Footer";
 // import PrivateRoute from "../components/PrivateRoute";
 
 // Lazy load delle pagine
@@ -22,6 +23,7 @@ const AppRoutes: React.FC = () => {
           </Route>
         </Routes>
       </Suspense>
+      <Footer/>
     </Router>
   );
 };

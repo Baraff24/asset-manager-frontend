@@ -10,7 +10,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, label }) => (
   <li>
     <Link
       to={to}
-      className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600"
+      className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50"
     >
       {label}
     </Link>
