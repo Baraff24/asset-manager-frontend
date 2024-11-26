@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MaintenanceRequest } from './MaintenanceApp'
+import { MaintenanceRequest } from './MaintenancePage.tsx'
 
 interface MaintenanceFormProps {
   onSubmit: (request: Omit<MaintenanceRequest, 'id' | 'requestDate' | 'status'>) => void

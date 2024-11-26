@@ -11,7 +11,7 @@ export interface MaintenanceRequest {
   status: 'pending' | 'in-progress' | 'completed'
 }
 
-const MaintenanceApp: React.FC = () => {
+const MaintenancePage: React.FC = () => {
   const [requests, setRequests] = useState<MaintenanceRequest[]>([])
 
   {/*Adds a request. This function takes the entire MaintenanceRequest as a parameter, omitting 
@@ -44,4 +44,4 @@ const MaintenanceApp: React.FC = () => {
   )
 }
 
-export default MaintenanceApp
+export default MaintenancePage;

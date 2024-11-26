@@ -1,5 +1,5 @@
 import React from 'react'
-import { MaintenanceRequest } from './MaintenanceApp'
+import { MaintenanceRequest } from './MaintenancePage.tsx'
 
 interface MaintenanceListProps {
   requests: MaintenanceRequest[]
