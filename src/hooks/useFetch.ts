@@ -1,27 +1,33 @@
-import { z, Schema } from "zod";
 import useSWR, { KeyedMutator } from "swr";
+import { ZodSchema } from "zod";
+import {fetcher} from "../services";
 
-// Define the fetcher function
-const fetcher = (...args: Parameters<typeof fetch>) =>
-    fetch(...args).then(res => res.json());
+type UseFetchResult<T> = {
+  data: T | null;
+  error: unknown;
+  isLoading: boolean;
+  isValidating: boolean;
+  mutate: KeyedMutator<T>;
+};
 
-type UseDataFetchingResult<TSchema extends Schema> = {
-    error: unknown,
-    isLoading: boolean,
-    isValidating: boolean,
-    mutate: KeyedMutator<any>,
-    data: z.infer<TSchema>
-}
+export const useFetch = <T>(url: string, schema: ZodSchema<T>): UseFetchResult<T> => {
+  const { data, error, isValidating, mutate } = useSWR(url, fetcher);
 
-// Define the hook for fetching data
-export const useDataFetching = <TSchema extends Schema>(url: string, schema: TSchema): UseDataFetchingResult<TSchema> => {
-    const { data, error, isValidating, mutate } = useSWR(url, fetcher);
+  let parsedData: T | null = null;
+  if (data) {
+    try {
+      parsedData = schema.parse(data);
+    } catch (parseError) {
+      console.error("Data parsing error:", parseError);
+      parsedData = null;
+    }
+  }
 
-    return {
-        data: data ? schema.parse(data) : data,
-        error,
-        isLoading: !data && !error,
-        isValidating,
-        mutate
-    };
+  return {
+    data: parsedData,
+    error,
+    isLoading: !data && !error,
+    isValidating,
+    mutate,
+  };
 };

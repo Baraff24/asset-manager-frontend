@@ -1,3 +1,2 @@
-export * from "./api";
+export * from "./fetcher.ts";
 export * from "./authServices";
-export * from "./api";
