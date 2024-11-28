@@ -126,7 +126,7 @@ const Header: React.FC = () => {
 
       {/* Side Navigation (Desktop) */}
       <div className="z-40 hidden sm:block">
-        <nav className="fixed left-0 bottom-0 flex w-1/4 flex-col bg-gray-700 pt-6 pb-8">
+        <nav className="fixed left-0 bottom-0 flex w-1/6 flex-col bg-gray-700 pt-6 pb-40">
           {/* Main Section */}
           <div className="px-4 pb-6">
             <h3 className="mb-2 text-xs font-medium uppercase text-gray-500">
