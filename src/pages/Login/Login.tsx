@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {login} from "../../services";
+import { login } from "../../services";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -15,7 +15,7 @@ const Login: React.FC = () => {
       await login(username, password);
       navigate("/");
     } catch (err: any) {
-      setError(err.message || "Errore durante il login");
+      setError(err.message || "Error during login");
     }
   };
 

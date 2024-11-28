@@ -1,84 +1,47 @@
+// src/services/authServices.ts
+import { fetcher } from "./fetcher";
 import { z } from "zod";
 
-// Scheme for login and refresh responses
+// Define the schema for login response
 const loginResponseSchema = z.object({
-  access: z.string(),
-  refresh: z.string(),
-  user: z.object({
-    id: z.number(),
-    username: z.string(),
-    email: z.string().email(),
-    // Aggiungi altri campi utente se necessario
-  }),
+  key: z.string(),
 });
 
-type LoginResponse = z.infer<typeof loginResponseSchema>;
+// Token key in localStorage
+const TOKEN_KEY = "auth_token";
 
-// Key for storing tokens in local storage
-const ACCESS_TOKEN_KEY = "access_token";
-
-// Function to set token
-const setToken = (access: string) => {
-  localStorage.setItem(ACCESS_TOKEN_KEY, access);
+// Token management functions
+export const getToken = (): string | null => {
+  return localStorage.getItem(TOKEN_KEY);
 };
 
-// Function to clear tokens
-const clearToken = () => {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
+export const setToken = (token: string) => {
+  localStorage.setItem(TOKEN_KEY, token);
 };
 
-// Function to get the access token
-export const getAccessToken = (): string | null => {
-  return localStorage.getItem(ACCESS_TOKEN_KEY);
+export const clearToken = () => {
+  localStorage.removeItem(TOKEN_KEY);
 };
 
-// Function of login
-export const login = async (username: string, password: string): Promise<LoginResponse> => {
-  const response = await fetch("/api/auth/login/", {
+// Login function
+export const login = async (username: string, password: string): Promise<void> => {
+  const data = await fetcher("/api/v1/auth/login/", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify({ username, password }),
   });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.detail || "Credenziali non valide");
-  }
-
-  const data = await response.json();
   const parsedData = loginResponseSchema.parse(data);
-  setToken(parsedData.access);
-  return parsedData;
+  setToken(parsedData.key);
 };
 
-// Function of logout
+// Logout function
 export const logout = () => {
   clearToken();
-  // Puoi aggiungere altre azioni di logout, come reindirizzare l'utente
+  // Additional logout actions like redirecting the user can be added here
 };
 
-// Function to get the current user
-export const getCurrentUser = async (): Promise<LoginResponse["user"]> => {
-  const access = getAccessToken();
-  if (!access) {
-    throw new Error("Access token mancante");
-  }
-
-  const response = await fetch("/api/auth/user/", {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${access}`,
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    clearToken();
-    throw new Error("Non autenticato");
-  }
-
-  const data = await response.json();
-  return loginResponseSchema.shape.user.parse(data);
-};
+// Function to get current user data (if needed outside of useAuth)
+// export const getCurrentUser = async (): Promise<User> => {
+//   const data = await fetcher("/api/auth/user/");
+//   return userSchema.parse(data);
+// };
