@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import MaintenanceForm from './MaintenanceForm'
-import MaintenanceList from './MaintenanceList'
+import MaintenanceForm from '../../components/Maintenance/MaintenanceForm'
+import MaintenanceList from '../../components/Maintenance/MaintenanceList'
 
 export interface MaintenanceRequest {
   id: number
