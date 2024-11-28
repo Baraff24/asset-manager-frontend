@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Header, PrivateRoute } from "../components";
 import Footer from "../components/Footer";
 
+
 // Lazy load of the pages
 const Login = lazy(() => import("../pages/Login"));
+const Maintenance = lazy(() => import ("../pages/MaintenancePage"))
 // const Home = lazy(() => import("../pages/Home"));
 
 const AppRoutes: React.FC = () => {
@@ -19,6 +21,7 @@ const AppRoutes: React.FC = () => {
                     {/* Private routes */}
                     <Route element={<PrivateRoute />}>
                         {/*<Route path="/" element={<Home />} />*/}
+                        <Route path="/rapportiIntervento" element={<Maintenance/>} />
                     </Route>
 
                     {/* Route 404 */}
