@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { departmentSchema } from "./departmentSchema";
 
-// Define the allowed gender choices
-const GENDER_CHOICES = ["Male", "Female", "Other", "None"] as const;
+const GENDER_CHOICES = ["Male", "Female", "Other", "None", "NONE"] as const;
 export const userIdSchema = z.number();
 
 export const userSchema = z.object({
@@ -14,6 +13,10 @@ export const userSchema = z.object({
   gender: z.enum(GENDER_CHOICES),
   telephone: z.string().nullable(),
   department: departmentSchema.nullable(),
+  // Include other fields if necessary, but avoid sensitive data like 'password'
 });
 
+export const usersSchema = z.array(userSchema);
+
 export type User = z.infer<typeof userSchema>;
+export type Users = z.infer<typeof usersSchema>;

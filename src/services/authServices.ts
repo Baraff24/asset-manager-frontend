@@ -1,4 +1,3 @@
-// src/services/authServices.ts
 import { fetcher } from "./fetcher";
 import { z } from "zod";
 
@@ -37,7 +36,7 @@ export const login = async (username: string, password: string): Promise<void> =
 // Logout function
 export const logout = () => {
   clearToken();
-  // Additional logout actions like redirecting the user can be added here
+  // Any additional logout logic
 };
 
 // Function to get current user data (if needed outside of useAuth)

@@ -10,7 +10,10 @@ type UseFetchResult<T> = {
   mutate: KeyedMutator<T>;
 };
 
-export const useFetch = <T>(url: string, schema: ZodSchema<T>): UseFetchResult<T> => {
+export const useFetch = <T>(
+    url: string | null,
+    schema: ZodSchema<T>
+): UseFetchResult<T> => {
   const { data, error, isValidating, mutate } = useSWR(url, fetcher);
 
   let parsedData: T | null = null;

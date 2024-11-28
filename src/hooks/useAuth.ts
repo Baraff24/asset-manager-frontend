@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useFetch } from "./useFetch";
-import {User, userSchema} from "../schemas";
-import {clearToken} from "../services";
+import {User, Users, usersSchema} from "../schemas";
+import { clearToken } from "../services";
 
 type UseAuthResult = {
   user: User | null;
@@ -12,20 +11,18 @@ type UseAuthResult = {
 };
 
 export const useAuth = (): UseAuthResult => {
-  const navigate = useNavigate();
-
-  const { data: user, error, isLoading } = useFetch<User>("/api/v1/users/", userSchema);
+  const { data: user, error, isLoading } = useFetch<Users>("/api/v1/accounts/users/", usersSchema);
 
   useEffect(() => {
     if (error) {
-      // If there's an error fetching user data, assume not authenticated
+      // Handle authentication error
       clearToken();
-      navigate("/login");
+      // Optionally, set an authentication state or trigger a callback
     }
-  }, [error, navigate]);
+  }, [error]);
 
   return {
-    user,
+    user: user ? user[0] : null,
     isLoading,
     isAuthenticated: !!user,
     error,
