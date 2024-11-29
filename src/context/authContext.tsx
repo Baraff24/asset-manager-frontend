@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User, Users } from "../schemas";
-import { useFetch } from "../hooks/useFetch";
 import { usersSchema } from "../schemas";
 import { getToken } from "../services";
+import {useFetch} from "../hooks/useFetch.ts";
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean; // Added isLoading
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
@@ -16,9 +17,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
 
   const token = getToken();
-  const { data: usersArray, error } = useFetch<Users>(
-      token ? "/api/v1/accounts/users/" : null,
-      usersSchema
+
+  // Extract isLoading from useFetch
+  const { data: usersArray, error, isLoading } = useFetch<Users>(
+    token ? "/api/v1/accounts/users/" : null,
+    usersSchema
   );
 
   useEffect(() => {
@@ -32,11 +35,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
       }
     }
-  }, [usersArray, error]);
+  }, [usersArray, error, user]);
 
-  const value = {
+  const value: AuthContextType = {
     user,
     isAuthenticated: !!user,
+    isLoading,
     setUser,
   };
 
