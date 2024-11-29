@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {Department, departmentSchema, RegisterFormData, registerSchema} from "../../schemas";
+import { Department, departmentSchema, RegisterFormData, registerSchema } from "../../schemas";
 import {useFetch} from "../../hooks/useFetch.ts";
 import {register} from "../../services";
 
@@ -13,7 +13,7 @@ const GENDER_OPTIONS = [
 const Register: React.FC = () => {
   const navigate = useNavigate();
 
-  // Initialize form state with default values
+  // Stato del form con valori predefiniti
   const [formData, setFormData] = useState<RegisterFormData>({
     username: "",
     password1: "",
@@ -26,10 +26,10 @@ const Register: React.FC = () => {
     department: null,
   });
 
-  // State to handle and display errors
+  // Stato per gestire e visualizzare errori
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch departments data using the custom useFetch hook
+  // Fetch dei dipartimenti utilizzando il custom hook useFetch
   const {
     data: departments,
     error: departmentsError,
@@ -37,8 +37,8 @@ const Register: React.FC = () => {
   } = useFetch<Department[]>(`/api/v1/accounts/departments/`, departmentSchema.array());
 
   /**
-   * Handles changes in form inputs.
-   * @param e - The input change event.
+   * Gestisce i cambiamenti negli input del form.
+   * @param e - Evento di cambiamento dell'input.
    */
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -52,14 +52,14 @@ const Register: React.FC = () => {
   };
 
   /**
-   * Handles form submission.
-   * @param e - The form submission event.
+   * Gestisce l'invio del form.
+   * @param e - Evento di invio del form.
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // Validate form data using Zod schema
+    // Validazione dei dati del form usando lo schema Zod
     const parseResult = registerSchema.safeParse(formData);
     if (!parseResult.success) {
       const validationErrors = parseResult.error.errors
@@ -70,30 +70,28 @@ const Register: React.FC = () => {
     }
 
     try {
-      // Attempt to register the user
+      // Tenta di registrare l'utente
       await register(parseResult.data);
-      // Navigate to home page upon successful registration
-      navigate("/");
-      // Reload the page to update authentication state
-      window.location.reload();
+      // Reindirizza alla pagina di successo della registrazione
+      navigate("/check-your-email");
     } catch (err: any) {
-      // Display error message if registration fails
-      setError(err.message || "Error during registration");
+      // Visualizza il messaggio di errore se la registrazione fallisce
+      setError(err.message || "Errore durante la registrazione");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full max-w-md"
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
       >
-        <h2 className="text-2xl mb-4">Register</h2>
-        {error && <div className="mb-4 text-red-500">{error}</div>}
+        <h2 className="text-2xl mb-6 text-center">Register</h2>
+        {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
         {/* Username Field */}
         <div className="mb-4">
           <label htmlFor="username" className="block mb-1">
-            Username
+            Username<span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -101,15 +99,21 @@ const Register: React.FC = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={`w-full border px-3 py-2 rounded ${
+              formData.username.length < 3 ? "border-red-500" : ""
+            }`}
             required
             minLength={3}
+            placeholder="Inserisci il tuo username"
           />
+          {formData.username.length > 0 && formData.username.length < 3 && (
+            <p className="text-red-500 text-sm mt-1">Username deve essere almeno di 3 caratteri.</p>
+          )}
         </div>
         {/* Password Field */}
         <div className="mb-4">
           <label htmlFor="password1" className="block mb-1">
-            Password
+            Password<span className="text-red-500">*</span>
           </label>
           <input
             type="password"
@@ -117,15 +121,21 @@ const Register: React.FC = () => {
             name="password1"
             value={formData.password1}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={`w-full border px-3 py-2 rounded ${
+              formData.password1.length > 0 && formData.password1.length < 6 ? "border-red-500" : ""
+            }`}
             required
             minLength={6}
+            placeholder="Inserisci la tua password"
           />
+          {formData.password1.length > 0 && formData.password1.length < 6 && (
+            <p className="text-red-500 text-sm mt-1">Password deve essere almeno di 6 caratteri.</p>
+          )}
         </div>
         {/* Confirm Password Field */}
         <div className="mb-4">
           <label htmlFor="password2" className="block mb-1">
-            Confirm Password
+            Conferma Password<span className="text-red-500">*</span>
           </label>
           <input
             type="password"
@@ -133,15 +143,21 @@ const Register: React.FC = () => {
             name="password2"
             value={formData.password2}
             onChange={handleChange}
-            className="w-full border px-3 py-2 rounded"
+            className={`w-full border px-3 py-2 rounded ${
+              formData.password2 && formData.password2 !== formData.password1 ? "border-red-500" : ""
+            }`}
             required
             minLength={6}
+            placeholder="Conferma la tua password"
           />
+          {formData.password2 && formData.password2 !== formData.password1 && (
+            <p className="text-red-500 text-sm mt-1">Le password non corrispondono.</p>
+          )}
         </div>
         {/* Email Field */}
         <div className="mb-4">
           <label htmlFor="email" className="block mb-1">
-            Email
+            Email<span className="text-red-500">*</span>
           </label>
           <input
             type="email"
@@ -151,6 +167,7 @@ const Register: React.FC = () => {
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
             required
+            placeholder="Inserisci la tua email"
           />
         </div>
         {/* First Name Field */}
@@ -166,6 +183,7 @@ const Register: React.FC = () => {
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
             maxLength={30}
+            placeholder="Inserisci il tuo nome"
           />
         </div>
         {/* Last Name Field */}
@@ -181,6 +199,7 @@ const Register: React.FC = () => {
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
             maxLength={150}
+            placeholder="Inserisci il tuo cognome"
           />
         </div>
         {/* Gender Dropdown */}
@@ -191,7 +210,7 @@ const Register: React.FC = () => {
           <select
             id="gender"
             name="gender"
-            value={formData.gender}
+            value={formData.gender ?? ""}
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
           >
@@ -217,6 +236,7 @@ const Register: React.FC = () => {
             className="w-full border px-3 py-2 rounded"
             pattern="\d*"
             maxLength={20}
+            placeholder="Inserisci il tuo numero di telefono"
           />
         </div>
         {/* Department Dropdown */}
@@ -225,7 +245,7 @@ const Register: React.FC = () => {
             Department
           </label>
           {departmentsLoading ? (
-            <div>Loading departments...</div>
+            <div className="text-gray-500">Loading departments...</div>
           ) : departmentsError ? (
             <div className="text-red-500">Error loading departments</div>
           ) : (
@@ -248,7 +268,7 @@ const Register: React.FC = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
+          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition-colors"
         >
           Register
         </button>
