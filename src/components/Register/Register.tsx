@@ -4,6 +4,7 @@ import { Department, departmentSchema, RegisterFormData, registerSchema } from "
 import {useFetch} from "../../hooks/useFetch.ts";
 import {register} from "../../services";
 
+
 const GENDER_OPTIONS = [
   { value: "MAN", label: "Man" },
   { value: "WOMAN", label: "Woman" },
@@ -28,6 +29,7 @@ const Register: React.FC = () => {
 
   // Stato per gestire e visualizzare errori
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false); // Stato di invio
 
   // Fetch dei dipartimenti utilizzando il custom hook useFetch
   const {
@@ -58,6 +60,7 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setIsSubmitting(true);
 
     // Validazione dei dati del form usando lo schema Zod
     const parseResult = registerSchema.safeParse(formData);
@@ -66,6 +69,7 @@ const Register: React.FC = () => {
         .map((err) => err.message)
         .join(", ");
       setError(validationErrors);
+      setIsSubmitting(false);
       return;
     }
 
@@ -77,6 +81,8 @@ const Register: React.FC = () => {
     } catch (err: any) {
       // Visualizza il messaggio di errore se la registrazione fallisce
       setError(err.message || "Errore durante la registrazione");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -100,7 +106,7 @@ const Register: React.FC = () => {
             value={formData.username}
             onChange={handleChange}
             className={`w-full border px-3 py-2 rounded ${
-              formData.username.length < 3 ? "border-red-500" : ""
+              formData.username.length > 0 && formData.username.length < 3 ? "border-red-500" : ""
             }`}
             required
             minLength={3}
@@ -268,9 +274,12 @@ const Register: React.FC = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition-colors"
+          disabled={isSubmitting}
+          className={`w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition-colors ${
+            isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          Register
+          {isSubmitting ? "Registering..." : "Register"}
         </button>
       </form>
     </div>

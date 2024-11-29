@@ -47,8 +47,10 @@ export const register = async (data: RegisterData): Promise<void> => {
     body: JSON.stringify(data),
   });
 
-  const parsedData = registerResponseSchema.parse(response);
-  setToken(parsedData.key);
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.detail || "Errore durante la registrazione.");
+  }
 };
 
 // Logout function
