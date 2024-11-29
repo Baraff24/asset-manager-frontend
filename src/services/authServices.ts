@@ -1,6 +1,13 @@
 import { fetcher } from "./fetcher";
 import { z } from "zod";
 
+
+// Define the schema for registration response
+export const registerResponseSchema = z.object({
+  key: z.string(),
+});
+
+
 // Define the schema for login response
 const loginResponseSchema = z.object({
   key: z.string(),
@@ -33,11 +40,35 @@ export const login = async (username: string, password: string): Promise<void> =
   setToken(parsedData.key);
 };
 
+// Register function
+export const register = async (data: RegisterData): Promise<void> => {
+  const response = await fetcher("/api/v1/auth/registration/", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
+
+  const parsedData = registerResponseSchema.parse(response);
+  setToken(parsedData.key);
+};
+
 // Logout function
 export const logout = () => {
   clearToken();
   // Any additional logout logic
 };
+
+// Define the shape of registration data
+export interface RegisterData {
+  username: string;
+  password1: string;
+  password2: string;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  gender?: string;
+  telephone?: string;
+  department?: number | null;
+}
 
 // Function to get current user data (if needed outside of useAuth)
 // export const getCurrentUser = async (): Promise<User> => {
