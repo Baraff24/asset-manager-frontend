@@ -27,7 +27,8 @@ const Login: React.FC = () => {
         <div className="p-6">
           {/* Logo */}
           <div className="flex justify-center mb-4">
-            <img src="/logo.png" alt="ITAM Logo" className="h-12 w-auto" />
+            {/*<img src="/logo.png" alt="ITAM Logo" className="h-12 w-auto" />*/}
+            <p>LOGO</p>
           </div>
 
           {/* Titolo */}
