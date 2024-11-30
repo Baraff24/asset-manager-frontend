@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 
 
 // Lazy load of the pages
+const HomePage = lazy(() => import("../pages/HomePage"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const RegisterPage = lazy(() => import("../pages/RegistrationPage"));
 const CheckYourEmailPage = lazy(() => import("../pages/CheckYourEmailPage"));
@@ -19,6 +20,7 @@ const AppRoutes: React.FC = () => {
             <Suspense fallback={<div>Loading...</div>}>
                 <Routes>
                     {/* Public routes */}
+                    <Route path="/" element={<HomePage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/check-your-email" element={<CheckYourEmailPage />} />
