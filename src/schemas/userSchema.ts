@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { departmentSchema } from "./departmentSchema";
 
-const GENDER_CHOICES = ["Male", "Female", "Other", "None", "NONE"] as const;
+const GENDER_CHOICES = ["MAN", "WOMAN", "NONE"] as const;
 export const userIdSchema = z.number();
 
 export const userSchema = z.object({

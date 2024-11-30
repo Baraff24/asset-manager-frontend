@@ -42,14 +42,13 @@ export const login = async (username: string, password: string): Promise<void> =
 
 // Register function
 export const register = async (data: RegisterData): Promise<void> => {
-  const response = await fetcher("/api/v1/auth/registration/", {
-    method: "POST",
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.detail || "Errore durante la registrazione.");
+  try {
+    await fetcher("/api/v1/auth/registration/", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  } catch (error: any) {
+    throw new Error(error.message || "Errore durante la registrazione.");
   }
 };
 
