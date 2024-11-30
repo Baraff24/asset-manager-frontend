@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import MaintenanceForm from '../../components/Maintenance/MaintenanceForm'
 import MaintenanceList from '../../components/Maintenance/MaintenanceList'
+import {Helmet} from "react-helmet";
 
 export interface MaintenanceRequest {
   id: number
@@ -28,19 +29,26 @@ const MaintenancePage: React.FC = () => {
 
   {/*Update the status of the request (pending,in-progress,completed*/}
   const updateRequestStatus = (id: number, status: MaintenanceRequest['status']) => {
-    setRequests(requests.map(req => 
-      req.id === id ? { ...req, status } : req
+    setRequests(requests.map(req =>
+        req.id === id ? { ...req, status } : req
     ))
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">Richieste di Manutenzione</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <MaintenanceForm onSubmit={addRequest} />
-        <MaintenanceList requests={requests} onUpdateStatus={updateRequestStatus} />
-      </div>
-    </div>
+      <>
+        <Helmet>
+          <title>ITAM - Manutenzioni</title>
+          <meta name="description"
+                content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
+        </Helmet>
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-8 text-center">Richieste di Manutenzione</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <MaintenanceForm onSubmit={addRequest} />
+            <MaintenanceList requests={requests} onUpdateStatus={updateRequestStatus} />
+          </div>
+        </div>
+      </>
   )
 }
 
