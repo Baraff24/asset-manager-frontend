@@ -1,55 +1,116 @@
-import React, { useState } from 'react'
-import MaintenanceForm from '../../components/Maintenance/MaintenanceForm'
-import MaintenanceList from '../../components/Maintenance/MaintenanceList'
-import {Helmet} from "react-helmet";
+// src/pages/MaintenancePage.tsx
 
-export interface MaintenanceRequest {
-  id: number
-  deviceType: string
-  deviceName: string
-  issueDescription: string
-  requestDate: Date
-  status: 'pending' | 'in-progress' | 'completed'
-}
+import React, { useState } from 'react';
+import { Helmet } from "react-helmet";
+import MaintenanceForm from "../../components/MaintenanceForm";
+import MaintenanceList from '../../components/MaintenanceList';
+import { useFetch } from "../../hooks/useFetch";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { Device, devicesSchema, MaintenanceRequest, maintenanceRequestsSchema, CreateMaintenanceRequestInput } from "../../schemas";
+import {createMaintenanceRequest, updateMaintenanceRequestStatus} from "../../services/maintenanceServices.ts";
+
 
 const MaintenancePage: React.FC = () => {
-  const [requests, setRequests] = useState<MaintenanceRequest[]>([])
+  // Fetch user devices
+  const {
+    data: devices,
+    error: devicesError,
+    isLoading: devicesLoading,
+  } = useFetch<Device[]>(`/api/v1/accounts/devices/`, devicesSchema);
 
-  {/*Adds a request. This function takes the entire MaintenanceRequest as a parameter, omitting 
-    id, requestDate and status which are also managed for the MaintenanceList but which are not required for filling out the form*/}
-  const addRequest = (request: Omit<MaintenanceRequest, 'id' | 'requestDate' | 'status'>) => {
-    const newRequest: MaintenanceRequest = {
-      ...request,
-      id: Date.now(),
-      requestDate: new Date(),
-      status: 'pending',
+  // Fetch maintenance requests
+  const {
+    data: requests,
+    error: requestsError,
+    isLoading: requestsLoading,
+    mutate: mutateRequests
+  } = useFetch<MaintenanceRequest[]>(`/api/v1/maintenance-requests/`, maintenanceRequestsSchema);
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  // Funzione per aggiungere una richiesta
+  const addRequest = async (request: CreateMaintenanceRequestInput) => {
+    if (!devices) {
+      toast.error("Dispositivi non caricati.");
+      return;
     }
-    setRequests([newRequest, ...requests])
+
+    setIsSubmitting(true);
+    try {
+      // Verifica che il dispositivo esista
+      const device = devices.find(d => d.id === request.deviceId);
+      if (!device) {
+        throw new Error("Dispositivo non trovato.");
+      }
+
+      // Crea la richiesta di manutenzione
+      const newRequest = await createMaintenanceRequest({
+        deviceId: device.id,
+        issueDescription: request.issueDescription,
+      });
+
+      // Aggiorna la lista delle richieste
+      await mutateRequests([newRequest, ...(requests || [])], false);
+      toast.success("Richiesta di manutenzione aggiunta con successo!");
+    } catch (err: any) {
+      toast.error(err.message || "Errore durante l'aggiunta della richiesta.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Funzione per aggiornare lo stato di una richiesta
+  const updateRequestStatusHandler = async (id: number, status: MaintenanceRequest['status']) => {
+    setIsSubmitting(true);
+    try {
+      const updatedRequest = await updateMaintenanceRequestStatus(id, status);
+      const updatedRequests = requests?.map(req => req.id === id ? updatedRequest : req) || [];
+      await mutateRequests(updatedRequests, false);
+      toast.success("Stato della richiesta aggiornato con successo!");
+    } catch (err: any) {
+      toast.error(err.message || "Errore durante l'aggiornamento dello stato.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Gestione degli stati di caricamento ed errori
+  if (devicesLoading || requestsLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-xl">Caricamento...</p>
+      </div>
+    );
   }
 
-  {/*Update the status of the request (pending,in-progress,completed*/}
-  const updateRequestStatus = (id: number, status: MaintenanceRequest['status']) => {
-    setRequests(requests.map(req =>
-        req.id === id ? { ...req, status } : req
-    ))
+  if (devicesError || requestsError || !devices || !requests) { // Aggiungi !devices e !requests
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <p className="text-xl text-red-500">
+          {devicesError ? "Errore nel caricamento dei dispositivi." : "Errore nel caricamento delle richieste di manutenzione."}
+        </p>
+      </div>
+    );
   }
 
   return (
-      <>
-        <Helmet>
-          <title>ITAM - Manutenzioni</title>
-          <meta name="description"
-                content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
-        </Helmet>
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8 text-center">Richieste di Manutenzione</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <MaintenanceForm onSubmit={addRequest} />
-            <MaintenanceList requests={requests} onUpdateStatus={updateRequestStatus} />
-          </div>
+    <>
+      <Helmet>
+        <title>ITAM - Manutenzioni</title>
+        <meta name="description"
+              content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
+      </Helmet>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold mb-8 text-center text-indigo-600">Richieste di Manutenzione</h1>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <MaintenanceForm onSubmit={addRequest} isSubmitting={isSubmitting} devices={devices} />
+          <MaintenanceList requests={requests} onUpdateStatus={updateRequestStatusHandler} />
         </div>
-      </>
-  )
+      </div>
+      <ToastContainer />
+    </>
+  );
 }
 
 export default MaintenancePage;
