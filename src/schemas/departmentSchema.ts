@@ -5,4 +5,6 @@ export const departmentSchema = z.object({
   name: z.string(),
 });
 
+export const departmentsSchema = z.array(departmentSchema);
+
 export type Department = z.infer<typeof departmentSchema>;

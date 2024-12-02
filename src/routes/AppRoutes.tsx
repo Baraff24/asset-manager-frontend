@@ -9,6 +9,11 @@ const LoginPage = lazy(() => import("../pages/LoginPage"));
 const RegisterPage = lazy(() => import("../pages/RegistrationPage"));
 const CheckYourEmailPage = lazy(() => import("../pages/CheckYourEmailPage"));
 const RegistrationSuccess = lazy(() => import("../pages/RegistrationSuccessPage"));
+const DepartmentsPage = lazy(() => import("../pages/DepartmentsPage"));
+const UsersPage = lazy(() => import("../pages/UsersPage"));
+const DevicesPage = lazy(() => import("../pages/DevicesPages"));
+const SuppliersPage = lazy(() => import("../pages/SuppliersPage"));
+const SoftwarePage = lazy(() => import("../pages/SoftwarePage"));
 const MyProfilePage = lazy(() => import("../pages/MyProfilePage"));
 const Maintenance = lazy(() => import ("../pages/MaintenancePage"))
 
@@ -29,6 +34,11 @@ const AppRoutes: React.FC = () => {
 
                             {/* Private routes */}
                             <Route element={<PrivateRoute/>}>
+                                <Route path="/departments" element={<DepartmentsPage />} />
+                                <Route path="/users" element={<UsersPage />} />
+                                <Route path="/devices" element={<DevicesPage />} />
+                                <Route path="/suppliers" element={<SuppliersPage />} />
+                                <Route path="/software" element={<SoftwarePage />} />
                                 <Route path="/my-profile" element={<MyProfilePage/>}/>
                                 <Route path="/rapportiIntervento" element={<Maintenance/>}/>
                             </Route>
