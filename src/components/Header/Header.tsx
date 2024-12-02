@@ -10,7 +10,7 @@ import {
   FaWarehouse,
   FaBriefcaseMedical,
   FaClipboardList,
-  FaRegBuilding,
+  FaUserEdit,
   FaThumbtack
 } from 'react-icons/fa';
 import { useAuthContext } from "../../context/authContext";
@@ -89,7 +89,7 @@ const Header: React.FC = () => {
                     ref={dropdownRef}
                     className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-2"
                   >
-                    <NavItem to="/dipartimenti" label="Dipartimenti" icon={<FaRegBuilding size={18} />} />
+                    <NavItem to="/my-profile" label="Il mio profilo" icon={<FaUserEdit size={18} />} />
                     <NavItem to="/statoRisorse" label="Stato Risorse" icon={<FaBriefcaseMedical size={18} />} />
                     <NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} />
                     <NavItem to="/assegnazioneRisorse" label="Assegnazione Risorse" icon={<FaThumbtack size={18} />} />
@@ -162,7 +162,7 @@ const Header: React.FC = () => {
               </li>
               {isAuthenticated ? (
                 <>
-                  <li><NavItem to="/dipartimenti" label="Dipartimenti" icon={<FaRegBuilding size={18} />} /></li>
+                  <li><NavItem to="/my-profile" label="Il mio profilo" icon={<FaUserEdit size={18} />} /></li>
                   <li><NavItem to="/statoRisorse" label="Stato Risorse" icon={<FaBriefcaseMedical size={18} />} /></li>
                   <li><NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} /></li>
                   <li><NavItem to="/assegnazioneRisorse" label="Assegnazione Risorse" icon={<FaThumbtack size={18} />} /></li>

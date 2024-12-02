@@ -2,16 +2,16 @@ import { z } from "zod";
 
 // Define the registration form schema
 export const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters long"),
-  password1: z.string().min(6, "Password must be at least 6 characters long"),
-  password2: z.string().min(6, "Password confirmation must be at least 6 characters long"),
-  email: z.string().email("Invalid email address"),
+  username: z.string().min(3, "Username deve essere almeno di 3 caratteri"),
+  password1: z.string().min(6, "Password deve essere almeno di 6 caratteri"),
+  password2: z.string().min(6, "Conferma password deve essere almeno di 6 caratteri"),
+  email: z.string().email("Indirizzo email non valido"),
   first_name: z.string().max(30).optional(),
   last_name: z.string().max(150).optional(),
   gender: z.enum(["MAN", "WOMAN", "NONE"]).optional(),
   telephone: z
     .string()
-    .regex(/^\d+$/, "Telephone must contain only digits")
+    .regex(/^\d+$/, "Il telefono deve contenere solo cifre")
     .max(20)
     .optional(),
   department: z.number().nullable().optional(),

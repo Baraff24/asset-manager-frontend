@@ -20,3 +20,14 @@ export const usersSchema = z.array(userSchema);
 
 export type User = z.infer<typeof userSchema>;
 export type Users = z.infer<typeof usersSchema>;
+
+
+export const updateUserProfileSchema = z.object({
+  first_name: z.string().max(30).optional(),
+  last_name: z.string().max(150).optional(),
+  gender: z.enum(["MAN", "WOMAN", "NONE"]).optional(),
+  telephone: z.string().regex(/^\d+$/).max(20).optional(),
+  department: z.number().nullable().optional(),
+});
+
+export type UpdateUserProfileData = z.infer<typeof updateUserProfileSchema>;

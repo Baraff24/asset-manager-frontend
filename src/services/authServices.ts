@@ -70,9 +70,3 @@ export interface RegisterData {
   telephone?: string;
   department?: number | null;
 }
-
-// Function to get current user data (if needed outside of useAuth)
-// export const getCurrentUser = async (): Promise<User> => {
-//   const data = await fetcher("/api/auth/user/");
-//   return userSchema.parse(data);
-// };

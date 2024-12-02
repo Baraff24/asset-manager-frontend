@@ -9,8 +9,8 @@ const LoginPage = lazy(() => import("../pages/LoginPage"));
 const RegisterPage = lazy(() => import("../pages/RegistrationPage"));
 const CheckYourEmailPage = lazy(() => import("../pages/CheckYourEmailPage"));
 const RegistrationSuccess = lazy(() => import("../pages/RegistrationSuccessPage"));
+const MyProfilePage = lazy(() => import("../pages/MyProfilePage"));
 const Maintenance = lazy(() => import ("../pages/MaintenancePage"))
-// const Home = lazy(() => import("../pages/Home"));
 
 const AppRoutes: React.FC = () => {
     return (
@@ -27,7 +27,7 @@ const AppRoutes: React.FC = () => {
 
                     {/* Private routes */}
                     <Route element={<PrivateRoute />}>
-                        {/*<Route path="/" element={<Home />} />*/}
+                        <Route path="/my-profile" element={<MyProfilePage />} />
                         <Route path="/rapportiIntervento" element={<Maintenance/>} />
                     </Route>
 
