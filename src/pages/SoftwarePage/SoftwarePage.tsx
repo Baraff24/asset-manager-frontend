@@ -8,7 +8,7 @@ import {Column} from "../../components/GenericList/GenericList.tsx";
 
 const SoftwarePage: React.FC = () => {
     // Utilizza l'hook useFetch per ottenere i software
-    const { data: softwares, error, isLoading, mutate } = useFetch<Software[]>('/api/v1/accounts/software/', softwareSchema.array());
+    const { data: softwares, error, isLoading, mutate } = useFetch<Software[]>('/api/v1/accounts/softwares/', softwareSchema.array());
 
     // Stati per la gestione del form di creazione e modifica
     const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
@@ -17,7 +17,7 @@ const SoftwarePage: React.FC = () => {
     // Funzione per creare un nuovo software
     const handleCreate = async (data: Omit<Software, 'id'>) => {
         try {
-            const response = await fetch('/api/v1/accounts/software/', {
+            const response = await fetch('/api/v1/accounts/softwares/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -36,7 +36,7 @@ const SoftwarePage: React.FC = () => {
     // Funzione per aggiornare un software esistente
     const handleUpdate = async (data: Software) => {
         try {
-            const response = await fetch(`/api/v1/accounts/software/${data.id}/`, {
+            const response = await fetch(`/api/v1/accounts/softwares/${data.id}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -56,7 +56,7 @@ const SoftwarePage: React.FC = () => {
     const handleDelete = async (software: Software) => {
         if (!window.confirm(`Sei sicuro di voler eliminare il software ${software.name}?`)) return;
         try {
-            const response = await fetch(`/api/v1/accounts/software/${software.id}/`, {
+            const response = await fetch(`/api/v1/accounts/softwares/${software.id}/`, {
                 method: 'DELETE',
             });
             if (!response.ok) throw new Error('Errore durante l\'eliminazione del software');
