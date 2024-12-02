@@ -25,7 +25,7 @@ const MaintenancePage: React.FC = () => {
     error: requestsError,
     isLoading: requestsLoading,
     mutate: mutateRequests
-  } = useFetch<MaintenanceRequest[]>(`/api/v1/maintenance-requests/`, maintenanceRequestsSchema);
+  } = useFetch<MaintenanceRequest[]>(`/api/v1/accounts/maintenance-interventions/`, maintenanceRequestsSchema);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
