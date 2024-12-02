@@ -98,7 +98,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-indigo-600 px-4 py-16">
+    <div className="min-h-screen flex items-center justify-center px-4 py-24">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-lg">
         {/* Header del Modulo */}
         <div className="p-6 bg-indigo-600 text-white">

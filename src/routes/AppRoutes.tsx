@@ -14,29 +14,33 @@ const Maintenance = lazy(() => import ("../pages/MaintenancePage"))
 
 const AppRoutes: React.FC = () => {
     return (
-        <Router>
-            <Header />
-            <Suspense fallback={<div>Loading...</div>}>
-                <Routes>
-                    {/* Public routes */}
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/check-your-email" element={<CheckYourEmailPage />} />
-                    <Route path="/registration-success" element={<RegistrationSuccess />} />
+        <div className="flex flex-col min-h-screen">
+            <main className="flex-grow">
+                <Router>
+                    <Header/>
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Routes>
+                            {/* Public routes */}
+                            <Route path="/" element={<HomePage/>}/>
+                            <Route path="/login" element={<LoginPage/>}/>
+                            <Route path="/register" element={<RegisterPage/>}/>
+                            <Route path="/check-your-email" element={<CheckYourEmailPage/>}/>
+                            <Route path="/registration-success" element={<RegistrationSuccess/>}/>
 
-                    {/* Private routes */}
-                    <Route element={<PrivateRoute />}>
-                        <Route path="/my-profile" element={<MyProfilePage />} />
-                        <Route path="/rapportiIntervento" element={<Maintenance/>} />
-                    </Route>
+                            {/* Private routes */}
+                            <Route element={<PrivateRoute/>}>
+                                <Route path="/my-profile" element={<MyProfilePage/>}/>
+                                <Route path="/rapportiIntervento" element={<Maintenance/>}/>
+                            </Route>
+                            {/* Route 404 */}
+                            <Route path="*" element={<div>Pagina non trovata</div>}/>
+                        </Routes>
+                    </Suspense>
+                </Router>
+            </main>
 
-                    {/* Route 404 */}
-                    <Route path="*" element={<div>Pagina non trovata</div>} />
-                </Routes>
-            </Suspense>
-            <Footer />
-        </Router>
+            <Footer/>
+        </div>
     );
 };
 

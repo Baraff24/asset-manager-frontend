@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet";
 const LoginPage: React.FC = () => {
 
     return (
-        <>
+        <div className="bg-gradient-to-r from-blue-500 to-indigo-600">
             <Helmet>
                 <title>ITAM - Login</title>
                 <meta name="description"
@@ -14,7 +14,7 @@ const LoginPage: React.FC = () => {
             <div className="container mx-auto px-4 py-8">
                 <Login/>
             </div>
-        </>
+        </div>
     )
 }
 

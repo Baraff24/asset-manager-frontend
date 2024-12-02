@@ -6,7 +6,6 @@ import {
   FaSignOutAlt,
   FaSignInAlt,
   FaHouseUser,
-  FaRegCalendarAlt,
   FaWarehouse,
   FaBriefcaseMedical,
   FaClipboardList,
@@ -94,7 +93,6 @@ const Header: React.FC = () => {
                     <NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} />
                     <NavItem to="/assegnazioneRisorse" label="Assegnazione Risorse" icon={<FaThumbtack size={18} />} />
                     <NavItem to="/magazzino" label="Magazzino" icon={<FaWarehouse size={18} />} />
-                    <NavItem to="/agenda" label="Agenda" icon={<FaRegCalendarAlt size={18} />} />
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-gray-200 hover:bg-gray-600"
@@ -167,7 +165,6 @@ const Header: React.FC = () => {
                   <li><NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} /></li>
                   <li><NavItem to="/assegnazioneRisorse" label="Assegnazione Risorse" icon={<FaThumbtack size={18} />} /></li>
                   <li><NavItem to="/magazzino" label="Magazzino" icon={<FaWarehouse size={18} />} /></li>
-                  <li><NavItem to="/agenda" label="Agenda" icon={<FaRegCalendarAlt size={18} />} /></li>
                   <li>
                     <button
                       onClick={handleLogout}

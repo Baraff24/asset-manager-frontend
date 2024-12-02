@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet";
 const RegistrationPage: React.FC = () => {
 
     return (
-        <>
+        <div className="bg-gradient-to-r from-blue-500 to-indigo-600">
             <Helmet>
                 <title>ITAM - Registrazione</title>
                 <meta name="description"
@@ -15,7 +15,7 @@ const RegistrationPage: React.FC = () => {
             <div className="container mx-auto px-4 py-8">
                 <Register />
             </div>
-        </>
+        </div>
     )
 }
 
