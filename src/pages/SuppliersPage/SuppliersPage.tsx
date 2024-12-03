@@ -5,6 +5,7 @@ import {useFetch} from "../../hooks/useFetch.ts";
 import {Supplier, supplierSchema} from "../../schemas";
 import {GenericForm, GenericList} from "../../components";
 import {Column} from "../../components/GenericList/GenericList.tsx";
+import {fetcher} from "../../services";
 
 const SuppliersPage: React.FC = () => {
     // Utilizza l'hook useFetch per ottenere i fornitori
@@ -17,7 +18,7 @@ const SuppliersPage: React.FC = () => {
     // Funzione per creare un nuovo fornitore
     const handleCreate = async (data: Omit<Supplier, 'id'>) => {
         try {
-            const response = await fetch('/api/v1/accounts/suppliers/', {
+            const response = await fetcher('/api/v1/accounts/suppliers/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -36,7 +37,7 @@ const SuppliersPage: React.FC = () => {
     // Funzione per aggiornare un fornitore esistente
     const handleUpdate = async (data: Supplier) => {
         try {
-            const response = await fetch(`/api/v1/accounts/suppliers/${data.id}/`, {
+            const response = await fetcher(`/api/v1/accounts/suppliers/${data.id}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -56,7 +57,7 @@ const SuppliersPage: React.FC = () => {
     const handleDelete = async (supplier: Supplier) => {
         if (!window.confirm(`Sei sicuro di voler eliminare il fornitore ${supplier.name}?`)) return;
         try {
-            const response = await fetch(`/api/v1/suppliers/${supplier.id}/`, {
+            const response = await fetcher(`/api/v1/suppliers/${supplier.id}/`, {
                 method: 'DELETE',
             });
             if (!response.ok) throw new Error('Errore durante l\'eliminazione del fornitore');

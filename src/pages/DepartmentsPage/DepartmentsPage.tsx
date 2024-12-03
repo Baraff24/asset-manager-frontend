@@ -5,6 +5,7 @@ import {useFetch} from "../../hooks/useFetch.ts";
 import {Department, departmentSchema} from "../../schemas";
 import {GenericForm, GenericList} from "../../components";
 import {Column} from "../../components/GenericList/GenericList.tsx";
+import {fetcher} from "../../services";
 
 
 const DepartmentsPage: React.FC = () => {
@@ -18,7 +19,7 @@ const DepartmentsPage: React.FC = () => {
     // Funzione per creare un nuovo dipartimento
     const handleCreate = async (data: Omit<Department, 'id'>) => {
         try {
-            const response = await fetch('/api/v1/accounts/departments/', {
+            const response = await fetcher('/api/v1/accounts/departments/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -37,7 +38,7 @@ const DepartmentsPage: React.FC = () => {
     // Funzione per aggiornare un dipartimento esistente
     const handleUpdate = async (data: Department) => {
         try {
-            const response = await fetch(`/api/v1/accounts/departments/${data.id}/`, {
+            const response = await fetcher(`/api/v1/accounts/departments/${data.id}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -57,7 +58,7 @@ const DepartmentsPage: React.FC = () => {
     const handleDelete = async (department: Department) => {
         if (!window.confirm(`Sei sicuro di voler eliminare il dipartimento ${department.name}?`)) return;
         try {
-            const response = await fetch(`/api/v1/departments/${department.id}/`, {
+            const response = await fetcher(`/api/v1/accounts/departments/${department.id}/`, {
                 method: 'DELETE',
             });
             if (!response.ok) throw new Error('Errore durante l\'eliminazione del dipartimento');

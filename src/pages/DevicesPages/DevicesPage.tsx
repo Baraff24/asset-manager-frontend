@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { GenericForm, GenericList } from '../../components';
 import {Column} from "../../components/GenericList/GenericList.tsx";
 import {FaEdit, FaTrash} from "react-icons/fa";
+import {fetcher} from "../../services";
 
 const DevicesPage: React.FC = () => {
     // Utilizza l'hook useFetch per ottenere i dispositivi
@@ -18,7 +19,7 @@ const DevicesPage: React.FC = () => {
     // Funzione per creare un nuovo dispositivo
     const handleCreate = async (deviceData: Omit<Device, 'id'>) => {
         try {
-            const response = await fetch('/api/v1/accounts/devices/', {
+            const response = await fetcher('/api/v1/accounts/devices/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ const DevicesPage: React.FC = () => {
     // Funzione per aggiornare un dispositivo esistente
     const handleUpdate = async (id: number, deviceData: Partial<Device>) => {
         try {
-            const response = await fetch(`/api/v1/accounts/devices/${id}/`, {
+            const response = await fetcher(`/api/v1/accounts/devices/${id}/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ const DevicesPage: React.FC = () => {
     // Funzione per eliminare un dispositivo
     const handleDelete = async (id: number) => {
         try {
-            const response = await fetch(`/api/v1/accounts/devices/${id}/`, {
+            const response = await fetcher(`/api/v1/accounts/devices/${id}/`, {
                 method: 'DELETE',
             });
             if (!response.ok) throw new Error('Failed to delete device');

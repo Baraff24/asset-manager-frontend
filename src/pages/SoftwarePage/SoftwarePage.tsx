@@ -5,6 +5,7 @@ import {useFetch} from "../../hooks/useFetch.ts";
 import {Software, softwareSchema} from "../../schemas";
 import {GenericForm, GenericList} from "../../components";
 import {Column} from "../../components/GenericList/GenericList.tsx";
+import {fetcher} from "../../services";
 
 const SoftwarePage: React.FC = () => {
     // Utilizza l'hook useFetch per ottenere i software
@@ -17,7 +18,7 @@ const SoftwarePage: React.FC = () => {
     // Funzione per creare un nuovo software
     const handleCreate = async (data: Omit<Software, 'id'>) => {
         try {
-            const response = await fetch('/api/v1/accounts/softwares/', {
+            const response = await fetcher('/api/v1/accounts/softwares/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -36,7 +37,7 @@ const SoftwarePage: React.FC = () => {
     // Funzione per aggiornare un software esistente
     const handleUpdate = async (data: Software) => {
         try {
-            const response = await fetch(`/api/v1/accounts/softwares/${data.id}/`, {
+            const response = await fetcher(`/api/v1/accounts/softwares/${data.id}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
@@ -56,7 +57,7 @@ const SoftwarePage: React.FC = () => {
     const handleDelete = async (software: Software) => {
         if (!window.confirm(`Sei sicuro di voler eliminare il software ${software.name}?`)) return;
         try {
-            const response = await fetch(`/api/v1/accounts/softwares/${software.id}/`, {
+            const response = await fetcher(`/api/v1/accounts/softwares/${software.id}/`, {
                 method: 'DELETE',
             });
             if (!response.ok) throw new Error('Errore durante l\'eliminazione del software');
