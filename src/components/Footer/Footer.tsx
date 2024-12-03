@@ -4,7 +4,7 @@ import { IoIosHelpCircleOutline } from "react-icons/io";
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bottom-0 left-0 right-0 bg-gray-800 text-white py-6 z-50">
+        <footer className="bottom-0 left-0 right-0 bg-gray-800 text-white py-4 z-40">
             <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
                 {/* Sezione Sinistra: Informazioni Aziendali */}
                 <div className="mb-4 md:mb-0">
