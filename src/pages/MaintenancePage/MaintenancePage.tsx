@@ -8,7 +8,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Device, devicesSchema, MaintenanceRequest, maintenanceRequestsSchema, CreateMaintenanceRequestInput } from "../../schemas";
-import {createMaintenanceRequest, updateMaintenanceRequestStatus} from "../../services/maintenanceServices.ts";
+import {createMaintenanceRequest} from "../../services/maintenanceServices.ts";
 
 
 const MaintenancePage: React.FC = () => {
@@ -38,21 +38,6 @@ const MaintenancePage: React.FC = () => {
       toast.success("Richiesta di manutenzione aggiunta con successo!");
     } catch (err: any) {
       toast.error(err.message || "Errore durante l'aggiunta della richiesta.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // Funzione per aggiornare lo stato di una richiesta
-  const updateRequestStatusHandler = async (id: number, status: MaintenanceRequest['status']) => {
-    setIsSubmitting(true);
-    try {
-      const updatedRequest = await updateMaintenanceRequestStatus(id, status);
-      const updatedRequests = requests?.map(req => req.id === id ? updatedRequest : req) || [];
-      await mutateRequests(updatedRequests, false);
-      toast.success("Stato della richiesta aggiornato con successo!");
-    } catch (err: any) {
-      toast.error(err.message || "Errore durante l'aggiornamento dello stato.");
     } finally {
       setIsSubmitting(false);
     }
@@ -88,7 +73,7 @@ const MaintenancePage: React.FC = () => {
           <h1 className="text-4xl font-bold mb-8 text-center text-indigo-600">Richieste di Manutenzione</h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <MaintenanceForm onSubmit={addRequest} isSubmitting={isSubmitting} devices={devices} />
-            <MaintenanceList requests={requests} onUpdateStatus={updateRequestStatusHandler} />
+            <MaintenanceList requests={requests} />
           </div>
         </div>
         <ToastContainer />
