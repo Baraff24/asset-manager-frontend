@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {Header, PrivateRoute, Footer} from "../components";
+import {ToastContainer} from "react-toastify";
 
 
 // Lazy load of the pages
@@ -50,6 +51,8 @@ const AppRoutes: React.FC = () => {
             </main>
 
             <Footer/>
+
+            <ToastContainer />
         </div>
     );
 };

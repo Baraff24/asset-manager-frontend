@@ -19,14 +19,10 @@ const DepartmentsPage: React.FC = () => {
     // Funzione per creare un nuovo dipartimento
     const handleCreate = async (data: Omit<Department, 'id'>) => {
         try {
-            const response = await fetcher('/api/v1/accounts/departments/', {
+            const newDepartment: Department = await fetcher('/api/v1/accounts/departments/', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            if (!response.ok) throw new Error('Errore durante la creazione del dipartimento');
-            const newDepartment: Department = await response.json();
-            // Assicura che departments non sia null utilizzando ?? []
             await mutate([...(departments ?? []), newDepartment], false);
             toast.success('Dipartimento creato con successo');
             setIsFormOpen(false);
@@ -38,13 +34,10 @@ const DepartmentsPage: React.FC = () => {
     // Funzione per aggiornare un dipartimento esistente
     const handleUpdate = async (data: Department) => {
         try {
-            const response = await fetcher(`/api/v1/accounts/departments/${data.id}/`, {
+            const updatedDepartment: Department = await fetcher(`/api/v1/accounts/departments/${data.id}/`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            if (!response.ok) throw new Error('Errore durante l\'aggiornamento del dipartimento');
-            const updatedDepartment: Department = await response.json();
             const updatedDepartments = departments ? departments.map(dep => dep.id === updatedDepartment.id ? updatedDepartment : dep) : [];
             await mutate(updatedDepartments, false);
             toast.success('Dipartimento aggiornato con successo');
@@ -54,14 +47,15 @@ const DepartmentsPage: React.FC = () => {
         }
     };
 
+
     // Funzione per eliminare un dipartimento
     const handleDelete = async (department: Department) => {
         if (!window.confirm(`Sei sicuro di voler eliminare il dipartimento ${department.name}?`)) return;
         try {
-            const response = await fetcher(`/api/v1/accounts/departments/${department.id}/`, {
+            // No need to capture the response since it's empty
+            await fetcher(`/api/v1/accounts/departments/${department.id}/`, {
                 method: 'DELETE',
             });
-            if (!response.ok) throw new Error('Errore durante l\'eliminazione del dipartimento');
             const updatedDepartments = departments ? departments.filter(dep => dep.id !== department.id) : [];
             await mutate(updatedDepartments, false);
             toast.success('Dipartimento eliminato con successo');
@@ -69,6 +63,7 @@ const DepartmentsPage: React.FC = () => {
             toast.error(err.message || 'Errore durante l\'eliminazione del dipartimento');
         }
     };
+
 
     // Definizione delle colonne, allineate con le chiavi del tipo Department
     const columns: Column<Department>[] = [
