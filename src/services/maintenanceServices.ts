@@ -3,8 +3,9 @@ import { fetcher } from "./fetcher";
 
 // Tipo per la creazione di una richiesta di manutenzione
 interface CreateMaintenanceRequestData {
-  deviceId: number;
-  issueDescription: string;
+  device: number;
+  description: string;
+  date_intervention: string;
 }
 
 // Tipo per l'aggiornamento dello stato di una richiesta
@@ -15,11 +16,8 @@ interface CreateMaintenanceRequestData {
 
 // Funzione per creare una nuova richiesta di manutenzione
 export const createMaintenanceRequest = async (data: CreateMaintenanceRequestData): Promise<MaintenanceRequest> => {
-  const response = await fetcher("/api/v1/accounts/maintenance-intervention/", {
+  const response = await fetcher("/api/v1/accounts/maintenance-interventions/", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(data),
   });
 
@@ -28,11 +26,8 @@ export const createMaintenanceRequest = async (data: CreateMaintenanceRequestDat
 
 // Funzione per aggiornare lo stato di una richiesta di manutenzione
 export const updateMaintenanceRequestStatus = async (id: number, status: MaintenanceRequest['status']): Promise<MaintenanceRequest> => {
-  const response = await fetcher(`/api/v1/accounts/maintenance-intervention/${id}/`, {
+  const response = await fetcher(`/api/v1/accounts/maintenance-interventions/${id}/`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify({ status }),
   });
 

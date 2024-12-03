@@ -1,13 +1,12 @@
 import { z } from "zod";
-import {deviceSchema} from "./deviceSchema";
 
 
 export const maintenanceRequestSchema = z.object({
   id: z.number(),
-  device: deviceSchema, // Inclusione del dispositivo associato
-  issueDescription: z.string(),
-  requestDate: z.string(), // ISO string date
-  status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED']),
+  device: z.number(),
+  date_intervention: z.string(),
+  description: z.string(),
+  technician: z.number(),
 });
 
 // Schema per una lista di richieste di manutenzione
@@ -17,15 +16,9 @@ export type MaintenanceRequest = z.infer<typeof maintenanceRequestSchema>;
 
 // Schema per una richiesta di manutenzione (Input)
 export const createMaintenanceRequestInputSchema = z.object({
-  deviceId: z.number(),
-  issueDescription: z.string(),
+  device: z.number(),
+  description: z.string(),
+  date_intervention: z.string(),
 });
 
 export type CreateMaintenanceRequestInput = z.infer<typeof createMaintenanceRequestInputSchema>;
-
-// Schema per l'aggiornamento dello stato di una richiesta
-export const updateMaintenanceRequestStatusDataSchema = z.object({
-  status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED']),
-});
-
-export type UpdateMaintenanceRequestStatusData = z.infer<typeof updateMaintenanceRequestStatusDataSchema>;

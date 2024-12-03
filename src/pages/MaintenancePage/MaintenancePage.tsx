@@ -31,26 +31,9 @@ const MaintenancePage: React.FC = () => {
 
   // Funzione per aggiungere una richiesta
   const addRequest = async (request: CreateMaintenanceRequestInput) => {
-    if (!devices) {
-      toast.error("Dispositivi non caricati.");
-      return;
-    }
-
     setIsSubmitting(true);
     try {
-      // Verifica che il dispositivo esista
-      const device = devices.find(d => d.id === request.deviceId);
-      if (!device) {
-        throw new Error("Dispositivo non trovato.");
-      }
-
-      // Crea la richiesta di manutenzione
-      const newRequest = await createMaintenanceRequest({
-        deviceId: device.id,
-        issueDescription: request.issueDescription,
-      });
-
-      // Aggiorna la lista delle richieste
+      const newRequest = await createMaintenanceRequest(request);
       await mutateRequests([newRequest, ...(requests || [])], false);
       toast.success("Richiesta di manutenzione aggiunta con successo!");
     } catch (err: any) {
@@ -78,38 +61,38 @@ const MaintenancePage: React.FC = () => {
   // Gestione degli stati di caricamento ed errori
   if (devicesLoading || requestsLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-xl">Caricamento...</p>
-      </div>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <p className="text-xl">Caricamento...</p>
+        </div>
     );
   }
 
   if (devicesError || requestsError || !devices || !requests) { // Aggiungi !devices e !requests
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-xl text-red-500">
-          {devicesError ? "Errore nel caricamento dei dispositivi." : "Errore nel caricamento delle richieste di manutenzione."}
-        </p>
-      </div>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+          <p className="text-xl text-red-500">
+            {devicesError ? "Errore nel caricamento dei dispositivi." : "Errore nel caricamento delle richieste di manutenzione."}
+          </p>
+        </div>
     );
   }
 
   return (
-    <>
-      <Helmet>
-        <title>ITAM - Manutenzioni</title>
-        <meta name="description"
-              content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
-      </Helmet>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8 text-center text-indigo-600">Richieste di Manutenzione</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <MaintenanceForm onSubmit={addRequest} isSubmitting={isSubmitting} devices={devices} />
-          <MaintenanceList requests={requests} onUpdateStatus={updateRequestStatusHandler} />
+      <>
+        <Helmet>
+          <title>ITAM - Manutenzioni</title>
+          <meta name="description"
+                content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
+        </Helmet>
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-4xl font-bold mb-8 text-center text-indigo-600">Richieste di Manutenzione</h1>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <MaintenanceForm onSubmit={addRequest} isSubmitting={isSubmitting} devices={devices} />
+            <MaintenanceList requests={requests} onUpdateStatus={updateRequestStatusHandler} />
+          </div>
         </div>
-      </div>
-      <ToastContainer />
-    </>
+        <ToastContainer />
+      </>
   );
 }
 
