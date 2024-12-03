@@ -8,7 +8,6 @@ import {Column} from "../../components/GenericList/GenericList.tsx";
 import {fetcher} from "../../services";
 
 const SuppliersPage: React.FC = () => {
-    // Utilizza l'hook useFetch per ottenere i fornitori
     const { data: suppliers, error, isLoading, mutate } = useFetch<Supplier[]>('/api/v1/accounts/suppliers/', supplierSchema.array());
 
     // Stati per la gestione del form di creazione e modifica
@@ -18,14 +17,10 @@ const SuppliersPage: React.FC = () => {
     // Funzione per creare un nuovo fornitore
     const handleCreate = async (data: Omit<Supplier, 'id'>) => {
         try {
-            const response = await fetcher('/api/v1/accounts/suppliers/', {
+            const newSupplier: Supplier = await fetcher('/api/v1/accounts/suppliers/', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            if (!response.ok) throw new Error('Errore durante la creazione del fornitore');
-            const newSupplier: Supplier = await response.json();
-            // Assicura che suppliers non sia null utilizzando ?? []
             await mutate([...(suppliers ?? []), newSupplier], false);
             toast.success('Fornitore creato con successo');
             setIsFormOpen(false);
@@ -37,13 +32,10 @@ const SuppliersPage: React.FC = () => {
     // Funzione per aggiornare un fornitore esistente
     const handleUpdate = async (data: Supplier) => {
         try {
-            const response = await fetcher(`/api/v1/accounts/suppliers/${data.id}/`, {
+            const updatedSupplier: Supplier = await fetcher(`/api/v1/accounts/suppliers/${data.id}/`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            if (!response.ok) throw new Error('Errore durante l\'aggiornamento del fornitore');
-            const updatedSupplier: Supplier = await response.json();
             const updatedSuppliers = suppliers ? suppliers.map(supplier => supplier.id === updatedSupplier.id ? updatedSupplier : supplier) : [];
             await mutate(updatedSuppliers, false);
             toast.success('Fornitore aggiornato con successo');
@@ -57,10 +49,9 @@ const SuppliersPage: React.FC = () => {
     const handleDelete = async (supplier: Supplier) => {
         if (!window.confirm(`Sei sicuro di voler eliminare il fornitore ${supplier.name}?`)) return;
         try {
-            const response = await fetcher(`/api/v1/suppliers/${supplier.id}/`, {
+            await fetcher(`/api/v1/accounts/suppliers/${supplier.id}/`, {
                 method: 'DELETE',
             });
-            if (!response.ok) throw new Error('Errore durante l\'eliminazione del fornitore');
             const updatedSuppliers = suppliers ? suppliers.filter(s => s.id !== supplier.id) : [];
             await mutate(updatedSuppliers, false);
             toast.success('Fornitore eliminato con successo');
@@ -74,10 +65,6 @@ const SuppliersPage: React.FC = () => {
         { header: 'ID', accessor: 'id' },
         { header: 'Nome', accessor: 'name' },
         { header: 'Telefono', accessor: 'telephone' },
-        // Se Supplier ha altre proprietà come 'contact_email', 'phone_number', 'address', assicurati che siano incluse nel tipo e aggiungi le colonne corrispondenti
-        // Ad esempio:
-        // { header: 'Email Contatto', accessor: 'contact_email' },
-        // { header: 'Indirizzo', accessor: 'address' },
     ];
 
     // Definizione delle azioni per ogni riga del fornitore
@@ -112,7 +99,7 @@ const SuppliersPage: React.FC = () => {
             ) : (
                 <GenericList<Supplier>
                     columns={columns}
-                    data={suppliers ?? []} // Usa ?? [] per assicurare che data sia sempre un array
+                    data={suppliers ?? []}
                     actions={actions}
                 />
             )}

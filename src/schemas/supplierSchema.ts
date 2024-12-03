@@ -6,4 +6,6 @@ export const supplierSchema = z.object({
   telephone: z.string(),
 });
 
+export const suppliersSchema = z.array(supplierSchema);
+
 export type Supplier = z.infer<typeof supplierSchema>;
