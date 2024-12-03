@@ -8,8 +8,6 @@ import {FaEdit, FaTrash} from "react-icons/fa";
 import {fetcher} from "../../services";
 
 const DevicesPage: React.FC = () => {
-    // Utilizza l'hook useFetch per ottenere i dispositivi
-    // Rimuovi .array() perché devicesSchema è già un ZodArray<Device>
     const { data: devices, error, isLoading, mutate } = useFetch<Device[]>('/api/v1/accounts/devices/', devicesSchema);
 
     // Stati per la gestione del form di creazione e modifica
@@ -19,16 +17,10 @@ const DevicesPage: React.FC = () => {
     // Funzione per creare un nuovo dispositivo
     const handleCreate = async (deviceData: Omit<Device, 'id'>) => {
         try {
-            const response = await fetcher('/api/v1/accounts/devices/', {
+            const newDevice: Device = await fetcher('/api/v1/accounts/devices/', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: JSON.stringify(deviceData),
             });
-            if (!response.ok) throw new Error('Failed to create device');
-            const newDevice: Device = await response.json();
-            // Assicura che devices non sia null utilizzando ?? []
             await mutate([...(devices ?? []), newDevice], false);
             toast.success('Dispositivo creato con successo');
             setIsCreating(false);
@@ -40,15 +32,13 @@ const DevicesPage: React.FC = () => {
     // Funzione per aggiornare un dispositivo esistente
     const handleUpdate = async (id: number, deviceData: Partial<Device>) => {
         try {
-            const response = await fetcher(`/api/v1/accounts/devices/${id}/`, {
+            const updatedDevice: Device = await fetcher(`/api/v1/accounts/devices/${id}/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(deviceData),
             });
-            if (!response.ok) throw new Error('Failed to update device');
-            const updatedDevice: Device = await response.json();
             const updatedDevices = devices ? devices.map(device => device.id === id ? updatedDevice : device) : [];
             await mutate(updatedDevices, false);
             toast.success('Dispositivo aggiornato con successo');
@@ -61,10 +51,9 @@ const DevicesPage: React.FC = () => {
     // Funzione per eliminare un dispositivo
     const handleDelete = async (id: number) => {
         try {
-            const response = await fetcher(`/api/v1/accounts/devices/${id}/`, {
+            await fetcher(`/api/v1/accounts/devices/${id}/`, {
                 method: 'DELETE',
             });
-            if (!response.ok) throw new Error('Failed to delete device');
             const updatedDevices = devices ? devices.filter(device => device.id !== id) : [];
             await mutate(updatedDevices, false);
             toast.success('Dispositivo eliminato con successo');
@@ -122,7 +111,7 @@ const DevicesPage: React.FC = () => {
             ) : (
                 <GenericList<Device>
                     columns={columns}
-                    data={devices ?? []} // Usa ?? [] per assicurare che data sia sempre un array
+                    data={devices ?? []}
                     actions={actions}
                 />
             )}
@@ -146,7 +135,6 @@ const DevicesPage: React.FC = () => {
                         { name: 'brand', label: 'Brand', type: 'text', placeholder: 'Inserisci brand' },
                         { name: 'serial_number', label: 'Serial Number', type: 'text', placeholder: 'Inserisci serial number' },
                         { name: 'purchase_date', label: 'Data Acquisto', type: 'date', placeholder: 'Inserisci data di acquisto' },
-                        { name: 'assigned_to', label: 'Assegnato a', type: 'number', placeholder: 'Inserisci ID utente (opzionale)' },
                         // Aggiungi altri campi se necessario
                     ]}
                     // Utilizza devicesSchema.element().partial() per rendere i campi opzionali durante l'aggiornamento
