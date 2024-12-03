@@ -7,7 +7,12 @@ import {
   FaSignInAlt,
   FaHouseUser,
   FaClipboardList,
-  FaUserEdit, FaBuilding, FaUsers, FaDesktop, FaTruck, FaLaptopCode,
+  FaUserEdit,
+  FaBuilding,
+  FaUsers,
+  FaDesktop,
+  FaTruck,
+  FaLaptopCode,
 } from 'react-icons/fa';
 import { useAuthContext } from "../../context/authContext";
 import {NavItem} from "../index.ts";
@@ -50,6 +55,11 @@ const Header: React.FC = () => {
     };
   }, [isDropdownOpen]);
 
+  // Funzione per chiudere il menu mobile
+  const closeMobileMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
       <>
         {/* Top Navigation */}
@@ -83,20 +93,22 @@ const Header: React.FC = () => {
                     {isDropdownOpen && (
                         <div
                             ref={dropdownRef}
-                            className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-2"
+                            className="absolute right-0 mt-2 w-64 bg-gray-800 rounded-md shadow-lg py-2"
                         >
-                          <NavItem to="/my-profile" label="Il mio profilo" icon={<FaUserEdit size={18} />} />
-                          <NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} />
-                          <NavItem to="/departments" label="Dipartimenti" icon={<FaBuilding size={18} />} />
-                          <NavItem to="/users" label="Utenti" icon={<FaUsers size={18} />} />
-                          <NavItem to="/devices" label="Dispositivi" icon={<FaDesktop size={18} />} />
-                          <NavItem to="/suppliers" label="Fornitori" icon={<FaTruck size={18} />} />
-                          <NavItem to="/software" label="Software" icon={<FaLaptopCode size={18} />} />
+                          {/* Nuove voci di navigazione */}
+                          <NavItem to="/departments" label="Dipartimenti" icon={<FaBuilding size={18} />} onClick={() => setIsDropdownOpen(false)} />
+                          <NavItem to="/users" label="Utenti" icon={<FaUsers size={18} />} onClick={() => setIsDropdownOpen(false)} />
+                          <NavItem to="/devices" label="Dispositivi" icon={<FaDesktop size={18} />} onClick={() => setIsDropdownOpen(false)} />
+                          <NavItem to="/suppliers" label="Fornitori" icon={<FaTruck size={18} />} onClick={() => setIsDropdownOpen(false)} />
+                          <NavItem to="/software" label="Software" icon={<FaLaptopCode size={18} />} onClick={() => setIsDropdownOpen(false)} />
+                          {/* Voci esistenti */}
+                          <NavItem to="/my-profile" label="Il mio profilo" icon={<FaUserEdit size={18} />} onClick={() => setIsDropdownOpen(false)} />
+                          <NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} onClick={() => setIsDropdownOpen(false)} />
                           <button
                               onClick={handleLogout}
-                              className="w-full text-left px-4 py-2 text-gray-200 hover:bg-gray-600"
+                              className="w-full text-left px-4 py-2 text-gray-200 hover:bg-gray-600 flex items-center"
                           >
-                            <FaSignOutAlt className="inline mr-2" />
+                            <FaSignOutAlt className="mr-2" />
                             Logout
                           </button>
                         </div>
@@ -111,14 +123,6 @@ const Header: React.FC = () => {
                     <FaSignInAlt className="h-5 w-5" />
                     <span>Login</span>
                   </button>
-              )}
-
-              {/* Desktop Dropdown Toggle for Authenticated Users */}
-              {isAuthenticated && (
-                  <div className="hidden sm:block ml-4 relative">
-                    {/* Dropdown Button */}
-                    {/* Non necessario in questa implementazione, gestito sopra */}
-                  </div>
               )}
 
               {/* Mobile Menu Button */}
@@ -155,21 +159,23 @@ const Header: React.FC = () => {
               <div className="sm:hidden bg-gray-700">
                 <ul className="px-4 py-2 space-y-2">
                   <li>
-                    <NavItem to="/" label="Homepage" icon={<FaHouseUser size={18} />} />
+                    <NavItem to="/" label="Homepage" icon={<FaHouseUser size={18} />} onClick={closeMobileMenu} />
                   </li>
                   {isAuthenticated ? (
                       <>
-                        <li><NavItem to="/my-profile" label="Il mio profilo" icon={<FaUserEdit size={18} />} /></li>
-                        <li><NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} /></li>
-                        <li><NavItem to="/departments" label="Dipartimenti" icon={<FaBuilding size={18} />} /></li>
-                        <li><NavItem to="/users" label="Utenti" icon={<FaUsers size={18} />} /></li>
-                        <li><NavItem to="/devices" label="Dispositivi" icon={<FaDesktop size={18} />} /></li>
-                        <li><NavItem to="/suppliers" label="Fornitori" icon={<FaTruck size={18} />} /></li>
-                        <li><NavItem to="/software" label="Software" icon={<FaLaptopCode size={18} />} /></li>
-
+                        <li><NavItem to="/departments" label="Dipartimenti" icon={<FaBuilding size={18} />} onClick={closeMobileMenu} /></li>
+                        <li><NavItem to="/users" label="Utenti" icon={<FaUsers size={18} />} onClick={closeMobileMenu} /></li>
+                        <li><NavItem to="/devices" label="Dispositivi" icon={<FaDesktop size={18} />} onClick={closeMobileMenu} /></li>
+                        <li><NavItem to="/suppliers" label="Fornitori" icon={<FaTruck size={18} />} onClick={closeMobileMenu} /></li>
+                        <li><NavItem to="/software" label="Software" icon={<FaLaptopCode size={18} />} onClick={closeMobileMenu} /></li>
+                        <li><NavItem to="/my-profile" label="Il mio profilo" icon={<FaUserEdit size={18} />} onClick={closeMobileMenu} /></li>
+                        <li><NavItem to="/rapportiIntervento" label="Rapporti di Intervento" icon={<FaClipboardList size={18} />} onClick={closeMobileMenu} /></li>
                         <li>
                           <button
-                              onClick={handleLogout}
+                              onClick={() => {
+                                handleLogout();
+                                closeMobileMenu();
+                              }}
                               className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600 w-full text-left"
                           >
                             <FaSignOutAlt className="h-5 w-5 mr-1" />
@@ -180,7 +186,10 @@ const Header: React.FC = () => {
                   ) : (
                       <li>
                         <button
-                            onClick={() => navigate("/login")}
+                            onClick={() => {
+                              navigate("/login");
+                              closeMobileMenu();
+                            }}
                             className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-gray-600 w-full text-left"
                         >
                           <FaSignInAlt className="h-5 w-5 mr-1" />

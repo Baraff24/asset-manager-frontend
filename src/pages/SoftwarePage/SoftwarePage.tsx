@@ -123,7 +123,6 @@ const SoftwarePage: React.FC = () => {
                         { name: 'version', label: 'Versione', type: 'text', placeholder: 'Inserisci versione' },
                         { name: 'license_key', label: 'Chiave Licenza', type: 'text', placeholder: 'Inserisci chiave licenza (opzionale)' },
                         { name: 'max_installations', label: 'Max Installazioni', type: 'number', placeholder: 'Inserisci numero massimo di installazioni' },
-                        // Aggiungi altri campi se necessario, ad esempio 'supplier', 'expire_date', ecc.
                     ]}
                     schema={
                         editingSoftware
