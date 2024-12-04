@@ -1,8 +1,8 @@
 import React from 'react';
 import AppRoutes from './routes/AppRoutes';
-import {AuthProvider} from "./context/authContext.tsx";
 import {fetcher} from "./services";
 import {SWRConfig} from "swr";
+import { AuthProvider } from './providers/authProvider';
 
 const App: React.FC = () => {
     return (
