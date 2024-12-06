@@ -78,7 +78,7 @@ const MaintenanceList: React.FC<MaintenanceListProps> = ({ requests, onUpdateSta
                   <strong>Descrizione:</strong> {request.description}
                 </p>
                 <p className="text-sm text-gray-600 mb-2">
-                  <strong>Data richiesta:</strong> {new Date(request.date_intervention).toLocaleString()}
+                  <strong>Data richiesta:</strong> {new Date(request.date_intervention).toLocaleDateString('it-IT')}
                 </p>
                 <div className="flex space-x-2">
                   <button
