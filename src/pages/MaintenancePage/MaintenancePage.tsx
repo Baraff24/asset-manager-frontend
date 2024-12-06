@@ -1,5 +1,3 @@
-// src/pages/MaintenancePage.tsx
-
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
 import MaintenanceForm from "../../components/MaintenanceForm";
@@ -8,7 +6,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { Device, devicesSchema, MaintenanceRequest, maintenanceRequestsSchema, CreateMaintenanceRequestInput } from "../../schemas";
-import {createMaintenanceRequest} from "../../services/maintenanceServices.ts";
+import {createMaintenanceRequest, updateMaintenanceRequestStatus} from "../../services/maintenanceServices.ts";
 
 
 const MaintenancePage: React.FC = () => {
@@ -17,7 +15,7 @@ const MaintenancePage: React.FC = () => {
     data: devices,
     error: devicesError,
     isLoading: devicesLoading,
-  } = useFetch<Device[]>(`/api/v1/accounts/devices/`, devicesSchema);
+  } = useFetch<Device[]>('/api/v1/accounts/devices/', devicesSchema);
 
   // Fetch maintenance requests
   const {
@@ -25,7 +23,7 @@ const MaintenancePage: React.FC = () => {
     error: requestsError,
     isLoading: requestsLoading,
     mutate: mutateRequests
-  } = useFetch<MaintenanceRequest[]>(`/api/v1/accounts/maintenance-interventions/`, maintenanceRequestsSchema);
+  } = useFetch<MaintenanceRequest[]>('/api/v1/accounts/maintenance-interventions/', maintenanceRequestsSchema);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -43,6 +41,19 @@ const MaintenancePage: React.FC = () => {
     }
   };
 
+  // Funzione per aggiornare lo stato di una richiesta
+  const handleUpdateStatus = async (id: number, status: 'IN_PROGRESS' | 'COMPLETED') => {
+    try {
+      const updatedRequest = await updateMaintenanceRequestStatus(id, status);
+      // Aggiorna la lista delle richieste con la richiesta aggiornata
+      const updatedRequests = requests?.map(req => req.id === id ? updatedRequest : req) || [];
+      await mutateRequests(updatedRequests, false);
+      toast.success("Stato aggiornato con successo!");
+    } catch (err: any) {
+      toast.error(err.message || "Errore durante l'aggiornamento dello stato.");
+    }
+  };
+
   // Gestione degli stati di caricamento ed errori
   if (devicesLoading || requestsLoading) {
     return (
@@ -52,7 +63,7 @@ const MaintenancePage: React.FC = () => {
     );
   }
 
-  if (devicesError || requestsError || !devices || !requests) { // Aggiungi !devices e !requests
+  if (devicesError || requestsError || !devices || !requests) {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
           <p className="text-xl text-red-500">
@@ -73,7 +84,7 @@ const MaintenancePage: React.FC = () => {
           <h1 className="text-4xl font-bold mb-8 text-center text-indigo-600">Richieste di Manutenzione</h1>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <MaintenanceForm onSubmit={addRequest} isSubmitting={isSubmitting} devices={devices} />
-            <MaintenanceList requests={requests} />
+            <MaintenanceList requests={requests} onUpdateStatus={handleUpdateStatus} />
           </div>
         </div>
         <ToastContainer />

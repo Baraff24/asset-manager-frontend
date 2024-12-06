@@ -9,9 +9,9 @@ interface CreateMaintenanceRequestData {
 }
 
 // Tipo per l'aggiornamento dello stato di una richiesta
-// interface UpdateMaintenanceRequestStatusData {
-//   status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
-// }
+interface UpdateMaintenanceRequestStatusData {
+  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
+}
 
 
 // Funzione per creare una nuova richiesta di manutenzione
@@ -25,11 +25,11 @@ export const createMaintenanceRequest = async (data: CreateMaintenanceRequestDat
 };
 
 // Funzione per aggiornare lo stato di una richiesta di manutenzione
-// export const updateMaintenanceRequestStatus = async (id: number, status: MaintenanceRequest['status']): Promise<MaintenanceRequest> => {
-//   const response = await fetcher(`/api/v1/accounts/maintenance-interventions/${id}/`, {
-//     method: "PUT",
-//     body: JSON.stringify({ status }),
-//   });
-//
-//   return maintenanceRequestSchema.parse(response);
-// };
+export const updateMaintenanceRequestStatus = async (id: number, status: UpdateMaintenanceRequestStatusData['status']): Promise<MaintenanceRequest> => {
+  const response = await fetcher(`/api/v1/accounts/maintenance-interventions/${id}/`, {
+    method: "PUT",
+    body: JSON.stringify({ status }),
+  });
+
+  return maintenanceRequestSchema.parse(response);
+};

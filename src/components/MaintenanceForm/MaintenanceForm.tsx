@@ -1,5 +1,3 @@
-// src/components/MaintenanceForm.tsx
-
 import React, { useState } from 'react';
 import { FaTools } from 'react-icons/fa';
 import {CreateMaintenanceRequestInput, Device } from '../../schemas';

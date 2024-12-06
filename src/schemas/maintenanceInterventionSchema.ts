@@ -7,6 +7,7 @@ export const maintenanceRequestSchema = z.object({
   date_intervention: z.string(),
   description: z.string(),
   technician: z.number(),
+  status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED"]),
 });
 
 // Schema per una lista di richieste di manutenzione
