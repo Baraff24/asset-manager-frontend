@@ -9,7 +9,10 @@ interface CreateMaintenanceRequestData {
 }
 
 // Tipo per l'aggiornamento dello stato di una richiesta
-interface UpdateMaintenanceRequestStatusData {
+interface UpdateMaintenanceRequestData {
+  device: number;
+  description: string;
+  date_intervention: string;
   status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 }
 
@@ -25,10 +28,10 @@ export const createMaintenanceRequest = async (data: CreateMaintenanceRequestDat
 };
 
 // Funzione per aggiornare lo stato di una richiesta di manutenzione
-export const updateMaintenanceRequestStatus = async (id: number, status: UpdateMaintenanceRequestStatusData['status']): Promise<MaintenanceRequest> => {
+export const updateMaintenanceRequest = async (id: number, data: UpdateMaintenanceRequestData): Promise<MaintenanceRequest> => {
   const response = await fetcher(`/api/v1/accounts/maintenance-interventions/${id}/`, {
     method: "PUT",
-    body: JSON.stringify({ status }),
+    body: JSON.stringify(data),
   });
 
   return maintenanceRequestSchema.parse(response);
