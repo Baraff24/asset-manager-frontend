@@ -102,7 +102,7 @@ const MaintenancePage: React.FC = () => {
                 <meta name="description"
                       content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
             </Helmet>
-            <div className="container mx-auto px-4 py-14">
+            <div className="container mx-auto px-4 py-20">
                 <h1 className="text-4xl font-bold mb-8 text-center text-indigo-600">Richieste di Manutenzione</h1>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <MaintenanceForm onSubmit={addRequest} isSubmitting={isSubmitting} devices={devices} />
