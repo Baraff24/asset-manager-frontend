@@ -9,7 +9,7 @@ interface MaintenanceListProps {
 
 const MaintenanceList: React.FC<MaintenanceListProps> = ({ requests, onUpdateStatus }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 4; // numero di elementi per pagina
+  const pageSize = 3; // numero di elementi per pagina
 
   // Scelta del colore per i diversi stati di manutenzione
   const getStatusColor = (status: MaintenanceRequest['status']) => {
