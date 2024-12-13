@@ -44,9 +44,9 @@ const HomePage: React.FC = () => {
               content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."
           />
         </Helmet>
-        <main className="pt-20">
+        <main>
           {/* Hero Section */}
-          <section className="relative h-[600px] text-white">
+          <section className="relative h-screen text-white">
             <HeroSlider slides={slides} interval={4000} />
           </section>
 
