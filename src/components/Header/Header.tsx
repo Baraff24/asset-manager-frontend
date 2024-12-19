@@ -17,7 +17,7 @@ import {
 import { useAuthContext } from "../../context/authContext";
 import {NavItem} from "../index.ts";
 
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/newLogo.png";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false); // Stato per il menu mobile
@@ -66,9 +66,9 @@ const Header: React.FC = () => {
       <>
         {/* Top Navigation */}
         <nav className="bg-gray-700 fixed top-0 w-full z-50">
-          <div className="flex justify-between items-center text-white py-4 pl-6 pr-6 md:pl-10 md:pr-10">
+          <div className="flex justify-between items-center text-white py-1 pl-6 pr-6 md:pl-10 md:pr-10">
             <a href="/" className="flex-shrink-0">
-              <img src={Logo} alt="Logo" className="w-8 h-auto"/>
+              <img src={Logo} alt="Logo" className="w-14 h-auto"/>
             </a>
             <div className="flex items-center">
               {isAuthenticated ? (

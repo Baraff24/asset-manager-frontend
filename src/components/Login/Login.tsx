@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { login } from "../../services";
 import { FaUser, FaLock } from "react-icons/fa";
 
-import Logo from "../../assets/images/logo.png";
+import Logo from "../../assets/images/newLogoWs.png";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
