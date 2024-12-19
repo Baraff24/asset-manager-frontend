@@ -4,10 +4,17 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { FeatureCard, HeroSlider, TestimonialCard } from "../../components";
 
+import BenvenutoImg from '../../assets/images/benvenuto.jpg';
+import OttimizzaProcessiImg from '../../assets/images/OttimizzaProcessi.jpg';
+import SecurityImg from '../../assets/images/security.png';
+import MarcoRossiImg from '../../assets/images/MarcoRossi.jpg';
+import LauraBianchiImg from '../../assets/images/LauraBianchi.jpg';
+import GiovanniVerdiImg from '../../assets/images/GiovanniVerdi.jpg';
+
 const HomePage: React.FC = () => {
   const slides = [
     {
-      image: "https://via.placeholder.com/500x300/ff6363/ffffff?text=ITAM+Slide+1",
+      image: BenvenutoImg,
       title: "Benvenuto in ITAM",
       description: "Gestisci le tue risorse in modo efficiente e sicuro con le nostre soluzioni all'avanguardia.",
       cta: {
@@ -16,7 +23,7 @@ const HomePage: React.FC = () => {
       },
     },
     {
-      image: "../../assets/styles/images/OttimizzaProcessi.jpg",
+      image: OttimizzaProcessiImg,
       title: "Ottimizza i tuoi processi",
       description: "Velocizza la gestione e riduci i costi grazie a strumenti innovativi.",
       cta: {
@@ -25,7 +32,7 @@ const HomePage: React.FC = () => {
       },
     },
     {
-      image: "../../assets/styles/images/security.png",
+      image: SecurityImg,
       title: "Massima Sicurezza",
       description: "Proteggi le tue risorse con soluzioni avanzate e conformi agli standard.",
       cta: {
@@ -98,7 +105,7 @@ const HomePage: React.FC = () => {
                       testimonial="ITAM ha rivoluzionato il nostro modo di gestire le risorse. Siamo più efficienti che mai!"
                       name="Marco Rossi"
                       role="CEO, Azienda XYZ"
-                      image="../../assets/styles/images/MarcoRossi.jpg"
+                      image={MarcoRossiImg}
                   />
                 </div>
                 {/* Testimonial 2 */}
@@ -107,7 +114,7 @@ const HomePage: React.FC = () => {
                       testimonial="Le funzionalità di ITAM ci hanno permesso di migliorare la collaborazione interna."
                       name="Laura Bianchi"
                       role="Manager, Azienda ABC"
-                      image="../../assets/styles/images/LauraBianchi.jpg"
+                      image={LauraBianchiImg}
                   />
                 </div>
                 {/* Testimonial 3 */}
@@ -116,7 +123,7 @@ const HomePage: React.FC = () => {
                       testimonial="Grazie a ITAM, la nostra sicurezza delle risorse non è mai stata così solida."
                       name="Giovanni Verdi"
                       role="CTO, Azienda DEF"
-                      image="../../assets/styles/images/GiovanniVerdi.jpg"
+                      image={GiovanniVerdiImg}
                   />
                 </div>
               </div>

@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { login } from "../../services";
 import { FaUser, FaLock } from "react-icons/fa";
 
+import Logo from "../../assets/images/logo.png";
+
 const Login: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -27,8 +29,7 @@ const Login: React.FC = () => {
         <div className="p-6">
           {/* Logo */}
           <div className="flex justify-center mb-4">
-            {/*<img src="/logo.png" alt="ITAM Logo" className="h-12 w-auto" />*/}
-            <p>LOGO</p>
+            <img src={Logo} alt="ITAM Logo" className="h-12 w-auto" />
           </div>
 
           {/* Titolo */}
