@@ -65,7 +65,8 @@ const Header: React.FC = () => {
         {/* Top Navigation */}
         <nav className="bg-gray-700 fixed top-0 w-full z-50">
           <div className="flex justify-between items-center text-white py-4 pl-6 pr-6 md:pl-10 md:pr-10">
-            <a href="/" className="inline text-lg font-semibold">ITAM</a>
+            {/*<a href="/" className="inline text-lg font-semibold">ITAM</a>*/}
+            <a href="/"><img src="../../assets/styles/images/Logo_senzaScritta_png-Photoroom.png" alt="Logo" /></a>
             <div className="flex items-center">
               {isAuthenticated ? (
                   <div className="relative">

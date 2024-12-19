@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
       },
     },
     {
-      image: "https://via.placeholder.com/500x300/63ff63/ffffff?text=ITAM+Slide+2",
+      image: "../../assets/styles/images/OttimizzaProcessi.jpg",
       title: "Ottimizza i tuoi processi",
       description: "Velocizza la gestione e riduci i costi grazie a strumenti innovativi.",
       cta: {
@@ -25,7 +25,7 @@ const HomePage: React.FC = () => {
       },
     },
     {
-      image: "https://via.placeholder.com/500x300/6363ff/ffffff?text=ITAM+Slide+3",
+      image: "../../assets/styles/images/security.png",
       title: "Massima Sicurezza",
       description: "Proteggi le tue risorse con soluzioni avanzate e conformi agli standard.",
       cta: {
@@ -98,7 +98,7 @@ const HomePage: React.FC = () => {
                       testimonial="ITAM ha rivoluzionato il nostro modo di gestire le risorse. Siamo più efficienti che mai!"
                       name="Marco Rossi"
                       role="CEO, Azienda XYZ"
-                      image="https://via.placeholder.com/50"
+                      image="../../assets/styles/images/MarcoRossi.jpg"
                   />
                 </div>
                 {/* Testimonial 2 */}
@@ -107,7 +107,7 @@ const HomePage: React.FC = () => {
                       testimonial="Le funzionalità di ITAM ci hanno permesso di migliorare la collaborazione interna."
                       name="Laura Bianchi"
                       role="Manager, Azienda ABC"
-                      image="https://via.placeholder.com/50"
+                      image="../../assets/styles/images/LauraBianchi.jpg"
                   />
                 </div>
                 {/* Testimonial 3 */}
@@ -116,7 +116,7 @@ const HomePage: React.FC = () => {
                       testimonial="Grazie a ITAM, la nostra sicurezza delle risorse non è mai stata così solida."
                       name="Giovanni Verdi"
                       role="CTO, Azienda DEF"
-                      image="https://via.placeholder.com/50"
+                      image="../../assets/styles/images/GiovanniVerdi.jpg"
                   />
                 </div>
               </div>
