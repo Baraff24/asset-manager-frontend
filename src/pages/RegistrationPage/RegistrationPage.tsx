@@ -7,9 +7,9 @@ const RegistrationPage: React.FC = () => {
     return (
         <div className="bg-gradient-to-r from-blue-500 to-indigo-600">
             <Helmet>
-                <title>ITAM - Registrazione</title>
+                <title>ITAF - Registrazione</title>
                 <meta name="description"
-                      content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
+                      content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAF."/>
             </Helmet>
 
             <div className="container mx-auto px-4 py-8">

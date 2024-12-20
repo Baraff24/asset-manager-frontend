@@ -15,7 +15,7 @@ const HomePage: React.FC = () => {
   const slides = [
     {
       image: BenvenutoImg,
-      title: "Benvenuto in ITAM",
+      title: "Benvenuto in ITAF",
       description: "Gestisci le tue risorse in modo efficiente e sicuro con le nostre soluzioni all'avanguardia.",
       cta: {
         label: "Inizia Ora",
@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
   return (
       <>
         <Helmet>
-          <title>ITAM - Gestione Risorse Aziendali</title>
+          <title>ITAF - Gestione Risorse Aziendali</title>
           <meta
               name="description"
               content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."
@@ -102,7 +102,7 @@ const HomePage: React.FC = () => {
                 {/* Testimonial 1 */}
                 <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
                   <TestimonialCard
-                      testimonial="ITAM ha rivoluzionato il nostro modo di gestire le risorse. Siamo più efficienti che mai!"
+                      testimonial="ITAF ha rivoluzionato il nostro modo di gestire le risorse. Siamo più efficienti che mai!"
                       name="Marco Rossi"
                       role="CEO, Azienda XYZ"
                       image={MarcoRossiImg}
@@ -111,7 +111,7 @@ const HomePage: React.FC = () => {
                 {/* Testimonial 2 */}
                 <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
                   <TestimonialCard
-                      testimonial="Le funzionalità di ITAM ci hanno permesso di migliorare la collaborazione interna."
+                      testimonial="Le funzionalità di ITAF ci hanno permesso di migliorare la collaborazione interna."
                       name="Laura Bianchi"
                       role="Manager, Azienda ABC"
                       image={LauraBianchiImg}
@@ -120,7 +120,7 @@ const HomePage: React.FC = () => {
                 {/* Testimonial 3 */}
                 <div className="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
                   <TestimonialCard
-                      testimonial="Grazie a ITAM, la nostra sicurezza delle risorse non è mai stata così solida."
+                      testimonial="Grazie a ITAF, la nostra sicurezza delle risorse non è mai stata così solida."
                       name="Giovanni Verdi"
                       role="CTO, Azienda DEF"
                       image={GiovanniVerdiImg}
@@ -137,7 +137,7 @@ const HomePage: React.FC = () => {
                 Pronto a Migliorare la Tua Gestione delle Risorse?
               </h2>
               <p className="text-lg mb-6">
-                Unisciti a migliaia di aziende che già utilizzano ITAM per ottimizzare le loro operazioni.
+                Unisciti a migliaia di aziende che già utilizzano ITAF per ottimizzare le loro operazioni.
               </p>
               <Link
                   to="/register"

@@ -16,9 +16,9 @@ const RegistrationSuccessPage: React.FC = () => {
   return (
       <>
         <Helmet>
-          <title>ITAM - Registrazione eseguita</title>
+          <title>ITAF - Registrazione eseguita</title>
           <meta name="description"
-                content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAM."/>
+                content="Gestisci le tue risorse aziendali in modo efficiente e sicuro con ITAF."/>
         </Helmet>
 
 

@@ -102,7 +102,7 @@ const Register: React.FC = () => {
       <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-lg">
         {/* Header del Modulo */}
         <div className="p-6 bg-indigo-600 text-white">
-          <h2 className="text-2xl font-semibold text-center">Registrati a ITAM</h2>
+          <h2 className="text-2xl font-semibold text-center">Registrati a ITAF</h2>
         </div>
 
         {/* Corpo del Modulo */}
