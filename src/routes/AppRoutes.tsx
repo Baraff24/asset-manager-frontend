@@ -16,7 +16,8 @@ const DevicesPage = lazy(() => import("../pages/DevicesPages"));
 const SuppliersPage = lazy(() => import("../pages/SuppliersPage"));
 const SoftwarePage = lazy(() => import("../pages/SoftwarePage"));
 const MyProfilePage = lazy(() => import("../pages/MyProfilePage"));
-const Maintenance = lazy(() => import ("../pages/MaintenancePage"))
+const Maintenance = lazy(() => import ("../pages/MaintenancePage"));
+const ContactUs = lazy(() => import ("../pages/ContactUs"));
 
 const AppRoutes: React.FC = () => {
     return (
@@ -32,6 +33,7 @@ const AppRoutes: React.FC = () => {
                             <Route path="/register" element={<RegisterPage/>}/>
                             <Route path="/check-your-email" element={<CheckYourEmailPage/>}/>
                             <Route path="/registration-success" element={<RegistrationSuccess/>}/>
+                            <Route path="/contact" element={<ContactUs/>}/>
 
                             {/* Private routes */}
                             <Route element={<PrivateRoute/>}>
