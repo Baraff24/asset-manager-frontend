@@ -48,12 +48,14 @@ const HeroSlider: React.FC<HeroSliderProps> = ({ slides, interval = 3000 }) => {
                 <div
                     key={slide.image}
                     className={`absolute inset-0 flex flex-col items-center justify-center px-6 text-center transition-opacity duration-1000 ease-in-out ${
-                        index === currentIndex ? "opacity-100" : "opacity-0"
+                        index === currentIndex
+                            ? "opacity-100 pointer-events-auto"
+                            : "opacity-0 pointer-events-none"
                     }`}
                     style={{
                         backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${slide.image})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
                     }}
                 >
                     <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
